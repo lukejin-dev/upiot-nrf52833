@@ -7,12 +7,18 @@ Device based on [Nordic BLE SDK](./sdk/nrf) and [LoraWan SDK](./sdk/LoRaMac) to 
 | Nordic BLE Stack | nRF5_SDK_17.0.2_d674dde | [sdk/nrf](./sdk/nrf) |
 | LoRaWan | [b7e170c](https://github.com/Lora-net/LoRaMac-node/commit/b7e170c9036dbbf05b3a27d4364dd9576793d840)(2020/11/16) | [sdk/LoRaMac](./sdk/LoRaMac) |
 
+## 1 Hardware Kit
 
-## 1. Getting Start
+---
+
+![](https://www.cnx-software.com/wp-content/uploads/2019/10/nRF52833-DK.jpg)
+![](https://www.cnx-software.com/wp-content/uploads/2019/10/nRF52833-vs-nRF52832-vs-nRF52840.png)
+
+## 2. Getting Start
 
 ----
 
-### 1.1 Set Development Environment
+### 2.1 Set Development Environment
 
 - Install [Visual Studio Code](https://code.visualstudio.com/download)
 - Install plugins at [.vscode/extensions.json](.vscode/extensions.json) automatically or by manual from Visual Studio Marketplace:
@@ -22,7 +28,7 @@ Device based on [Nordic BLE SDK](./sdk/nrf) and [LoraWan SDK](./sdk/LoRaMac) to 
 - [nRF5x-Command-Line-Tools](https://www.nordicsemi.com/eng/nordic/Products/nRF52840/nRF5x-Command-Line-Tools-Win32/58850), and set binary path to environmetn variable for example `C:\Program Files (x86)\Nordic Semiconductor\nrf-command-line-tools\bin` (_Note: please use your path with your account name._)
 - Download Latest [GNU Arm Embedded Toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads), extract and copy to the folder of vscode plugin - "GNU Arm embedded toolchain", for example `C:\Users\bluew\.vscode\extensions\metalcode-eu.windows-arm-none-eabi-0.1.6\arm-none-eabi\bin` (_Note: please use your path with your account name._)
 
-### 1.2 Launch Tasks: Build and Flash
+### 2.2 Launch Tasks: Build and Flash
 
 All tasks are put into [.vscode/tasks.json](.vscode/tasks.json) file include build/clean firmware, download softdevice/flash etc.
 
@@ -37,7 +43,7 @@ _NOTE: All apps are put at folder [apps](apps)_
 
 _NOTE: Normally, you need build firmware->erase firmware->download softdevice->download flash._
 
-### 1.3 View log from Jlink RTTViewer
+### 2.3 View log from Jlink RTTViewer
 
 - Set `NRF_LOG_BACKEND_RTT_ENABLED` to 1 at <apps>/<app>/config/sdk_config.h
 - Rebuild application, and download flash
@@ -45,7 +51,7 @@ _NOTE: Normally, you need build firmware->erase firmware->download softdevice->d
 
 ![](docs/use_rtt_logging.png)
 
-## Reference
+## 3 Reference
 
 ---
 
