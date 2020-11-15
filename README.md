@@ -2,6 +2,12 @@
 
 Device based on [Nordic BLE SDK](./sdk/nrf) and [LoraWan SDK](./sdk/LoRaMac) to provides diverse communication in different distances.
 
+| SDK Name | Upstream Version | Local Path |
+| -------- | ---------------- | ---------- |
+| Nordic BLE Stack | nRF5_SDK_17.0.2_d674dde | [sdk/nrf](./sdk/nrf) |
+| LoRaWan | [b7e170c](https://github.com/Lora-net/LoRaMac-node/commit/b7e170c9036dbbf05b3a27d4364dd9576793d840)(2020/11/16) | [sdk/LoRaMac](./sdk/LoRaMac) |
+
+
 ## 1. Getting Start
 
 ----
