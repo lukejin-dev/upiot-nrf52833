@@ -10,9 +10,9 @@ Device based on [Nordic BLE SDK](./sdk/nrf) and [LoraWan SDK](./sdk/LoRaMac) to 
 ## 1 Hardware Kit
 
 ---
+Please found more at [here](docs/hardware.md)
 
 ![](https://www.cnx-software.com/wp-content/uploads/2019/10/nRF52833-DK.jpg)
-![](https://www.cnx-software.com/wp-content/uploads/2019/10/nRF52833-vs-nRF52832-vs-nRF52840.png)
 
 ## 2. Getting Start
 
