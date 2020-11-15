@@ -51,6 +51,11 @@ _NOTE: Normally, you need build firmware->erase firmware->download softdevice->d
 
 ![](docs/use_rtt_logging.png)
 
+### 2.4 Debug
+
+The debug configure is at [.vscode/launch.json](.vscode/launch.json).
+
+![](docs/debug_demo.png)
 ## 3 Reference
 
 ---

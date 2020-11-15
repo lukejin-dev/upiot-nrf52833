@@ -1,0 +1,33 @@
+{
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "cwd": "${workspaceRoot}",
+      "executable": "${workspaceFolder}/apps/${input:appName}/prj/vscode/_build/nrf52833_xxaa.out", // 根据自身的情况填充自己的实际路径
+      "name": "Debug Microcontroller",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "jlink",
+      "runToMain": true,
+      "device": "nRF52833_xxAA",
+      "interface": "swd",
+      "ipAddress": null,
+      "serialNumber": null,
+    },
+  ],
+  "inputs": [
+    {
+      "type": "pickString",
+      "id": "appName",
+      "description": "Select what app you want?",
+      "options": [
+        "ble_app_hrs_nfc_pairing",
+        "other"
+      ],
+      "default": "ble_app_hrs_nfc_pairing"
+    },
+  ]
+}
