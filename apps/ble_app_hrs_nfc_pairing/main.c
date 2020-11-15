@@ -926,4 +926,3 @@ int main(void)
         idle_state_handle();
     }
 }
-
