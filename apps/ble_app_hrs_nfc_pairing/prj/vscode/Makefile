@@ -136,27 +136,6 @@ SRC_FILES += \
   $(SDK_ROOT)/components/libraries/crypto/backend/oberon/oberon_backend_hash.c \
   $(SDK_ROOT)/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c \
 
-# Source files to lora SDK
-SRC_FILES += \
-  $(LORA_DIR)/peripherals/soft-se/aes.c \
-  $(LORA_DIR)/peripherals/soft-se/cmac.c \
-  $(LORA_DIR)/peripherals/soft-se/soft-se.c \
-  $(LORA_DIR)/apps/LoRaMac/common/NvmCtxMgmt.c \
-  $(LORA_DIR)/mac/LoRaMac.c \
-  $(LORA_DIR)/mac/LoRaMacAdr.c \
-  $(LORA_DIR)/mac/LoRaMacClassB.c \
-  $(LORA_DIR)/mac/LoRaMacCommands.c \
-  $(LORA_DIR)/mac/LoRaMacConfirmQueue.c \
-  $(LORA_DIR)/mac/LoRaMacCrypto.c \
-  $(LORA_DIR)/mac/LoRaMacParser.c \
-  $(LORA_DIR)/mac/LoRaMacSerializer.c \
-  $(LORA_DIR)/mac/region/Region.c \
-  $(LORA_DIR)/mac/region/RegionCommon.c \
-  $(LORA_DIR)/mac/region/RegionCN470.c \
-  $(LORA_DIR)/mac/region/RegionUS915.c \
-  $(LORA_DIR)/radio/sx126x/radio.c \
-  $(LORA_DIR)/radio/sx126x/sx126x.c \
-
 # Include folders common to all targets
 INC_FOLDERS += \
   $(SDK_ROOT)/components/nfc/ndef/connection_handover/ble_pair_msg \
