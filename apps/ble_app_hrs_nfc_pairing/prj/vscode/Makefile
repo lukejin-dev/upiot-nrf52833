@@ -138,6 +138,10 @@ SRC_FILES += \
 
 # Source files to lora SDK
 SRC_FILES += \
+  $(LIB_DIR)/system/gpio.c \
+
+# Source files to lora SDK
+SRC_FILES += \
   $(LORA_DIR)/mac/LoRaMac.c \
   $(LORA_DIR)/mac/LoRaMacAdr.c \
   $(LORA_DIR)/mac/LoRaMacClassB.c \

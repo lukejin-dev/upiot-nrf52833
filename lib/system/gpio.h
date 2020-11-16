@@ -74,8 +74,14 @@ typedef enum
  */
 typedef enum
 {
-    PIN_PUSH_PULL = 0,
-    PIN_OPEN_DRAIN
+    PIN_S0S1 = 0,
+    PIN_H0S1,
+    PIN_S0H1,
+    PIN_H0H1,
+    PIN_D0S1,
+    PIN_D0H1,
+    PIN_S0D1,
+    PIN_H0D1
 }PinConfigs;
 
 /*!
@@ -90,6 +96,16 @@ typedef enum
 }IrqModes;
 
 /*!
+ * Define the GPIO IRQ Accuracy, High or Low
+ */
+typedef enum
+{
+    IRQ_ACCURACY_HIGH,
+    IRQ_ACCURACY_LOW
+}IrqAccuracys;
+
+#if 0 // TODO: [ken] use priority instead of accuracy.
+/*!
  * Define the IRQ priority on the GPIO
  */
 typedef enum
@@ -100,6 +116,7 @@ typedef enum
     IRQ_HIGH_PRIORITY,
     IRQ_VERY_HIGH_PRIORITY
 }IrqPriorities;
+#endif
 
 /*!
  * GPIO IRQ handler function prototype
@@ -152,7 +169,8 @@ void GpioSetContext( Gpio_t *obj, void* context );
  *                                       IRQ_VERY_HIGH_PRIORITY]
  * \param [IN] irqHandler  Callback function pointer
  */
-void GpioSetInterrupt( Gpio_t *obj, IrqModes irqMode, IrqPriorities irqPriority, GpioIrqHandler *irqHandler );
+void GpioSetInterrupt( Gpio_t *obj, IrqModes irqMode, IrqAccuracys irqAccuracy,
+    GpioIrqHandler *irqHandler );
 
 /*!
  * \brief Removes the interrupt from the object
