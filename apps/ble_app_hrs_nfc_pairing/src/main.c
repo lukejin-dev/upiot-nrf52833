@@ -202,6 +202,8 @@ static void battery_level_update(void)
     ret_code_t err_code;
     uint8_t  battery_level;
 
+    NRF_LOG_INFO("==> battery_level_update");
+
     battery_level = (uint8_t)sensorsim_measure(&m_battery_sim_state, &m_battery_sim_cfg);
 
     err_code = ble_bas_battery_level_update(&m_bas, battery_level, BLE_CONN_HANDLE_ALL);

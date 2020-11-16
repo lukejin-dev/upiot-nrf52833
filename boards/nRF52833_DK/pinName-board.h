@@ -29,16 +29,15 @@ extern "C"
 #endif
 
 /*!
- * STM32 Pin Names
+ * nRF52833 Pin Names
  */
 #define MCU_PINS \
-    PA_0 = 0, PA_1, PA_2, PA_3, PA_4, PA_5, PA_6, PA_7, PA_8, PA_9, PA_10, PA_11, PA_12, PA_13, PA_14, PA_15, \
-    PB_0, PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7, PB_8, PB_9, PB_10, PB_11, PB_12, PB_13, PB_14, PB_15,     \
-    PC_0, PC_1, PC_2, PC_3, PC_4, PC_5, PC_6, PC_7, PC_8, PC_9, PC_10, PC_11, PC_12, PC_13, PC_14, PC_15,     \
-    PD_0, PD_1, PD_2, PD_3, PD_4, PD_5, PD_6, PD_7, PD_8, PD_9, PD_10, PD_11, PD_12, PD_13, PD_14, PD_15,     \
-    PE_0, PE_1, PE_2, PE_3, PE_4, PE_5, PE_6, PE_7, PE_8, PE_9, PE_10, PE_11, PE_12, PE_13, PE_14, PE_15,     \
-    PF_0, PF_1, PF_2, PF_3, PF_4, PF_5, PF_6, PF_7, PF_8, PF_9, PF_10, PF_11, PF_12, PF_13, PF_14, PF_15,     \
-    PH_0, PH_1, PH_2, PH_3, PH_4, PH_5, PH_6, PH_7, PH_8, PH_9, PH_10, PH_11, PH_12, PH_13, PH_14, PH_15
+    P0_00 = 0, P0_01, P0_02, P0_03, P0_04, P0_05, P0_06, P0_07, \
+        P0_08, P0_09, P0_10, P0_11, P0_12, P0_13, P0_14, P0_15, \
+        P0_16, P0_17, P0_18, P0_19, P0_20, P0_21, P0_22, P0_23, \
+        P0_24, P0_25, P0_26, P0_27, P0_28, P0_29, P0_30, P0_31, \
+        P1_00, P1_01, P1_02, P1_03, P1_04, P1_05, P1_06, P1_07, \
+        P1_08, P1_09
 
 #ifdef __cplusplus
 }

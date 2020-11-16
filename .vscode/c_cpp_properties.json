@@ -9,6 +9,8 @@
                 "${config:arm-none-eabi.include}/c++/9.3.1/tr1",
                 "${config:arm-none-eabi.include}/../../lib/gcc/arm-none-eabi/9.3.1/include",
                 "${workspaceFolder}/**",
+                "${workspaceFolder}/sdk/nrf/nRF5_SDK_17.0.2/components/ble/ble_services/ble_bas/",
+                "${workspaceFolder}/sdk/nrf/nRF5_SDK_17.0.2/components/ble/ble_services/ble_hrs/",
                 "${workspaceFolder}/sdk/nrf/nRF5_SDK_17.0.2/components/libraries/util",
                 "${workspaceFolder}/sdk/nrf/nRF5_SDK_17.0.2/components/libraries/log",
                 "${workspaceFolder}/sdk/nrf/nRF5_SDK_17.0.2/components/ble/nrf_ble_gatt"
