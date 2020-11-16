@@ -3,7 +3,10 @@ TARGETS          := nrf52833_xxaa
 OUTPUT_DIRECTORY := _build
 
 SDK_ROOT := ../../../../sdk/nrf/nRF5_SDK_17.0.2/
+LORA_DIR := ../../../../sdk/LoRaMac/
 PROJ_DIR := ../../
+BOARD_DIR := ../../../../boards/nRF52833_DK/
+LIB_DIR = ../../../../lib/
 
 $(OUTPUT_DIRECTORY)/nrf52833_xxaa.out: \
   LINKER_SCRIPT  := ble_app_hrs_nfc_pairing_gcc_nrf52.ld
@@ -83,7 +86,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_init.c \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_rng.c \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_shared.c \
-  $(PROJ_DIR)/main.c \
+  $(PROJ_DIR)/src/main.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_ble.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_soc.c \
@@ -132,6 +135,27 @@ SRC_FILES += \
   $(SDK_ROOT)/components/libraries/crypto/backend/oberon/oberon_backend_eddsa.c \
   $(SDK_ROOT)/components/libraries/crypto/backend/oberon/oberon_backend_hash.c \
   $(SDK_ROOT)/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c \
+
+# Source files to lora SDK
+SRC_FILES += \
+  $(LORA_DIR)/peripherals/soft-se/aes.c \
+  $(LORA_DIR)/peripherals/soft-se/cmac.c \
+  $(LORA_DIR)/peripherals/soft-se/soft-se.c \
+  $(LORA_DIR)/apps/LoRaMac/common/NvmCtxMgmt.c \
+  $(LORA_DIR)/mac/LoRaMac.c \
+  $(LORA_DIR)/mac/LoRaMacAdr.c \
+  $(LORA_DIR)/mac/LoRaMacClassB.c \
+  $(LORA_DIR)/mac/LoRaMacCommands.c \
+  $(LORA_DIR)/mac/LoRaMacConfirmQueue.c \
+  $(LORA_DIR)/mac/LoRaMacCrypto.c \
+  $(LORA_DIR)/mac/LoRaMacParser.c \
+  $(LORA_DIR)/mac/LoRaMacSerializer.c \
+  $(LORA_DIR)/mac/region/Region.c \
+  $(LORA_DIR)/mac/region/RegionCommon.c \
+  $(LORA_DIR)/mac/region/RegionCN470.c \
+  $(LORA_DIR)/mac/region/RegionUS915.c \
+  $(LORA_DIR)/radio/sx126x/radio.c \
+  $(LORA_DIR)/radio/sx126x/sx126x.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \
@@ -214,7 +238,6 @@ INC_FOLDERS += \
   $(SDK_ROOT)/external/fprintf \
   $(SDK_ROOT)/components/nfc/ndef/connection_handover/ble_oob_advdata \
   $(SDK_ROOT)/components/ble/common \
-  ../../config \
   $(SDK_ROOT)/components/libraries/log \
   $(SDK_ROOT)/components/ble/ble_services/ble_rscs_c \
   $(SDK_ROOT)/components \
@@ -280,6 +303,20 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/libraries/spi_mngr \
   $(SDK_ROOT)/components/libraries/crypto/backend/oberon \
   $(SDK_ROOT)/components/nfc/ndef/conn_hand_parser/ac_rec_parser \
+
+# Chace add Include folders
+INC_FOLDERS += \
+  $(PROJ_DIR)/config \
+  $(PROJ_DIR)/src \
+  $(BOARD_DIR)/ \
+  $(LORA_DIR)/radio \
+  $(LORA_DIR)/mac \
+  $(LORA_DIR)/apps/LoRaMac/common/ \
+  $(LORA_DIR)/peripherals \
+  $(LORA_DIR)/peripherals/soft-se \
+  $(LORA_DIR)/mac/region \
+  $(LORA_DIR)/radio/sx126x \
+  $(LIB_DIR)/system \
 
 # Libraries common to all targets
 LIB_FILES += \
