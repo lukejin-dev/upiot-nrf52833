@@ -139,6 +139,9 @@ SRC_FILES += \
 # Source files to lora SDK
 SRC_FILES += \
   $(LIB_DIR)/system/gpio.c \
+  $(LIB_DIR)/system/spi.c \
+  $(LIB_DIR)/system/board.c \
+  $(LIB_DIR)/system/sx126x-dev.c \
 
 # Source files to lora SDK
 SRC_FILES += \

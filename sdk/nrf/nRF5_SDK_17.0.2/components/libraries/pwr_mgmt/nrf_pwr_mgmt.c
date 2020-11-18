@@ -111,10 +111,10 @@ static nrf_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator.
         CRITICAL_REGION_EXIT();
 
         /*
-         * The last chance to indicate an error in FPU to the user 
+         * The last chance to indicate an error in FPU to the user
          * as the FPSCR is now cleared
          *
-         * This assert is related to previous FPU operations 
+         * This assert is related to previous FPU operations
          * and not power management.
          *
          * Critical FPU exceptions signaled:
