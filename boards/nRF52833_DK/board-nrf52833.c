@@ -207,7 +207,7 @@ void BoardGetBleMac( uint8_t *mac )
         mac[i] = device_addr.addr[5 - i];
     }
     UP_INFO("BLE MAC:");
-    //UP_HEXDUMP_INFO( mac, 6 );
+    UP_HEXDUMP_INFO( mac, 6 );
     UP_INFO("\r\n");
 }
 

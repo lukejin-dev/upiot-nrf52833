@@ -866,7 +866,7 @@ int main(void)
     // Initialize.
     log_init();
     UP_INFO("UpIOT Start");
-    UP_LOG_HEXDUMP_INFO(&erase_bonds, 2);
+    UP_HEXDUMP_INFO(&erase_bonds, 2);
 
     timers_init();
     buttons_leds_init(&erase_bonds);

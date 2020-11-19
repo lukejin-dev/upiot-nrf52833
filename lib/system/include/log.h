@@ -73,10 +73,10 @@ void up_log_hexdump(uint32_t severity_mid, const void * const p_data, uint16_t l
         up_log_hexdump((level), (p_data), (length));  \
     }                                                       \
 
-#define UP_LOG_HEXDUMP_INFO(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_INFO, (p_data), (length))
-#define UP_LOG_HEXDUMP_DEBUG(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_DEBUG, (p_data), (length))
-#define UP_LOG_HEXDUMP_WARN(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_WARNING, (p_data), (length))
-#define UP_LOG_HEXDUMP_ERROR(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_ERROR, (p_data), (length))
+#define UP_HEXDUMP_INFO(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_INFO, (p_data), (length))
+#define UP_HEXDUMP_DEBUG(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_DEBUG, (p_data), (length))
+#define UP_HEXDUMP_WARN(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_WARNING, (p_data), (length))
+#define UP_HEXDUMP_ERROR(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_ERROR, (p_data), (length))
 
 void up_log_init( void );
 
