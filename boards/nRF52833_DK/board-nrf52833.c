@@ -21,22 +21,16 @@
  * \author    Gregory Cristian ( Semtech )
  */
 
-#include "gpio.h"
-#include "spi.h"
-#include "timer.h"
-#include "rtc.h"
-// #include "flash.h"
+#include "sdk_common.h"
+#include "nrf_log_ctrl.h"
+#include "nrf_log_default_backends.h"
+#include "nrf_pwr_mgmt.h"
+#include "app_scheduler.h"
+#include "app_timer.h"
 #include "ble_gap.h"
-#include "crc32.h"
 
-#if defined( SX1261MBXBAS ) || defined( SX1262MBXCAS ) || defined( SX1262MBXDAS )
-    #include "sx126x-board.h"
-#elif defined( SX1272MB2DAS)
-    #include "sx1272-board.h"
-#elif defined( SX1276MB1LAS ) || defined( SX1276MB1MAS )
-    #include "sx1276-board.h"
-#endif
-#include "board-nrf52833.h"
+#include "board.h"
+#include "log.h"
 
 /*!
  * Unique Devices IDs register set ( STM32L152x )
@@ -59,8 +53,6 @@
  * Flag to indicate if the MCU is Initialized
  */
 static bool McuInitialized = false;
-
-static uint8_t CurrentDeviceType = WATER_ULTRASONIC;
 
 // /*!
 //  * Flag used to indicate if board is powered from the USB
@@ -111,7 +103,7 @@ void BoardInitMcu( void )
 
         // UsbIsConnected = true;
 
-        RtcInit( );
+        //RtcInit( );
         // if( GetBoardPowerSource( ) == BATTERY_POWER )
         // {
         //     // Disables OFF mode - Enables lowest power mode (STOP)
@@ -171,7 +163,7 @@ void BoardDeInitMcu( void )
     SX1276IoDeInit( );
 #endif
 }
-
+/**
 uint32_t BoardGetDevAddr( uint8_t *appskey, uint8_t *nwkskey )
 {
     uint8_t little_devaddr[4];
@@ -203,6 +195,21 @@ void BoardSetDeviceType(uint8_t devtype)
 {
 	CurrentDeviceType = devtype;
 }
+**/
+
+void BoardGetBleMac( uint8_t *mac )
+{
+    ble_gap_addr_t device_addr;
+    APP_ERROR_CHECK( sd_ble_gap_addr_get( &device_addr ) );
+
+    for ( int i = 0; i < 6; i++ )
+    {
+        mac[i] = device_addr.addr[5 - i];
+    }
+    UP_INFO("BLE MAC:");
+    //UP_HEXDUMP_INFO( mac, 6 );
+    UP_INFO("\r\n");
+}
 
 void BoardGetDevEui( uint8_t *id )
 {
@@ -214,23 +221,11 @@ void BoardGetDevEui( uint8_t *id )
     id[4] = ble_mac[2];
     id[3] = ble_mac[1];
     id[2] = ble_mac[0];
-    id[1] = CurrentDeviceType;    // 表示设备类型,  0x01 空气温湿度传感器, 0x03 土壤温湿度传感器， 0x05 一氧化碳传感器, 0x07 倾角传感器, 0x09 超声波水位传感器, 0x10 距离传感器, 0xA2 土壤PH传感器
+    //id[1] = CurrentDeviceType;    // 表示设备类型,  0x01 空气温湿度传感器, 0x03 土壤温湿度传感器， 0x05 一氧化碳传感器, 0x07 倾角传感器, 0x09 超声波水位传感器, 0x10 距离传感器, 0xA2 土壤PH传感器
     id[0] = 0x16;   // 固定字节，表示属于互由的设备
 }
 
-void BoardGetBleMac( uint8_t *mac )
-{
-    ble_gap_addr_t device_addr;
-    APP_ERROR_CHECK( sd_ble_gap_addr_get( &device_addr ) );
 
-    for ( int i = 0; i < 6; i++ )
-    {
-        mac[i] = device_addr.addr[5 - i];
-    }
-    NRF_LOG_INFO("BLE MAC:");
-    NRF_LOG_HEXDUMP_INFO( mac, 6 );
-    NRF_LOG_INFO("\r\n");
-}
 
 uint16_t BoardBatteryMeasureVolage( void )
 {

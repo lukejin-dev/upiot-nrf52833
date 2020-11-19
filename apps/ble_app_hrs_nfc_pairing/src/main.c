@@ -72,6 +72,7 @@
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
+#include "log.h"
 
 #define DEVICE_NAME "Nordic_HRM_NFC"            /**< Name of device. Will be included in the advertising data. */
 #define MANUFACTURER_NAME "NordicSemiconductor" /**< Manufacturer. Will be passed to Device Information Service. */
@@ -197,7 +198,7 @@ static void battery_level_update(void)
     ret_code_t err_code;
     uint8_t battery_level;
 
-    NRF_LOG_INFO("==> battery_level_update");
+    //NRF_LOG_INFO("==> battery_level_update");
 
     battery_level = (uint8_t)sensorsim_measure(&m_battery_sim_state, &m_battery_sim_cfg);
 
@@ -864,6 +865,8 @@ int main(void)
 
     // Initialize.
     log_init();
+    UP_INFO("UpIOT Start");
+
     timers_init();
     buttons_leds_init(&erase_bonds);
     power_management_init();

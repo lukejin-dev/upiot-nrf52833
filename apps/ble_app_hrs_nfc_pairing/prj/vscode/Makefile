@@ -139,6 +139,7 @@ SRC_FILES += \
 # Source files to nrf52 system
 SRC_FILES += \
   $(LIB_DIR)/system/nrf52/gpio.c \
+  $(LIB_DIR)/system/nrf52/log.c \
   $(LIB_DIR)/system/nrf52/spi.c \
   $(LIB_DIR)/system/nrf52/board.c \
   $(LIB_DIR)/system/nrf52/sx126x-board.c \
@@ -159,6 +160,10 @@ SRC_FILES += \
   $(LORA_DIR)/mac/region/RegionUS915.c \
   $(LORA_DIR)/radio/sx126x/radio.c \
   $(LORA_DIR)/radio/sx126x/sx126x.c \
+
+# Source files to nrf52833 board
+SRC_FILES += \
+  $(BOARD_DIR)\board-nrf52833.c
 
 # Encryption for Lora SDK, which is conflicted with nRF SDK
 #SRC_FILES += \
