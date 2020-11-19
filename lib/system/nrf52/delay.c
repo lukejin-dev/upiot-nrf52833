@@ -20,8 +20,8 @@
  *
  * \author    Gregory Cristian ( Semtech )
  */
-#include "delay-board.h"
 #include "delay.h"
+#include "nrf_delay.h"
 
 void Delay( float s )
 {
@@ -30,5 +30,10 @@ void Delay( float s )
 
 void DelayMs( uint32_t ms )
 {
-    DelayMsMcu( ms );
+    nrf_delay_ms( ms );
+}
+
+void DelayUs( uint32_t us )
+{
+    nrf_delay_us( us );
 }

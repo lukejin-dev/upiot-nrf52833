@@ -136,12 +136,12 @@ SRC_FILES += \
   $(SDK_ROOT)/components/libraries/crypto/backend/oberon/oberon_backend_hash.c \
   $(SDK_ROOT)/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c \
 
-# Source files to lora SDK
+# Source files to nrf52 system
 SRC_FILES += \
-  $(LIB_DIR)/system/gpio.c \
-  $(LIB_DIR)/system/spi.c \
-  $(LIB_DIR)/system/board.c \
-  $(LIB_DIR)/system/sx126x-dev.c \
+  $(LIB_DIR)/system/nrf52/gpio.c \
+  $(LIB_DIR)/system/nrf52/spi.c \
+  $(LIB_DIR)/system/nrf52/board.c \
+  $(LIB_DIR)/system/nrf52/sx126x-dev.c \
 
 # Source files to lora SDK
 SRC_FILES += \
@@ -326,7 +326,7 @@ INC_FOLDERS += \
   $(LORA_DIR)/peripherals/soft-se \
   $(LORA_DIR)/mac/region \
   $(LORA_DIR)/radio/sx126x \
-  $(LIB_DIR)/system \
+  $(LIB_DIR)/system/include \
 
 # Libraries common to all targets
 LIB_FILES += \

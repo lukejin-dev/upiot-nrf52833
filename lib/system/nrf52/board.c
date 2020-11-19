@@ -1,7 +1,7 @@
 /**
  * UpIoT
  */
-
+#include "sdk_common.h"
 #include "board.h"
 
 void BoardCriticalSectionBegin( uint32_t *mask )

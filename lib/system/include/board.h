@@ -1,7 +1,7 @@
 /*!
- * \file      utilities.h
+ * \file      board.h
  *
- * \brief     Helper functions implementation
+ * \brief     Target board general functions implementation
  *
  * \copyright Revised BSD License, see section \ref LICENSE.
  *
@@ -20,8 +20,8 @@
  *
  * \author    Gregory Cristian ( Semtech )
  */
-#ifndef __UTILITIES_H__
-#define __UTILITIES_H__
+#ifndef __BOARD_H__
+#define __BOARD_H__
 
 #ifdef __cplusplus
 extern "C"
@@ -48,9 +48,9 @@ extern "C"
  * \param [IN] b 2nd value
  * \retval minValue Minimum value
  */
-#ifndef MIN
-#define MIN( a, b ) ( ( ( a ) < ( b ) ) ? ( a ) : ( b ) )
-#endif
+//#ifndef MIN
+//#define MIN( a, b ) ( ( ( a ) < ( b ) ) ? ( a ) : ( b ) )
+//#endif
 
 /*!
  * \brief Returns the maximum value between a and b
@@ -59,9 +59,9 @@ extern "C"
  * \param [IN] b 2nd value
  * \retval maxValue Maximum value
  */
-#ifndef MAX
-#define MAX( a, b ) ( ( ( a ) > ( b ) ) ? ( a ) : ( b ) )
-#endif
+//#ifndef MAX
+//#define MAX( a, b ) ( ( ( a ) > ( b ) ) ? ( a ) : ( b ) )
+//#endif
 
 /*!
  * \brief Returns 2 raised to the power of n
@@ -153,26 +153,124 @@ int8_t Nibble2HexChar( uint8_t a );
 
 /*
  * ============================================================================
- * Following functions must be implemented inside the specific platform 
+ * Following functions must be implemented inside the specific platform
  * board.c file.
  * ============================================================================
  */
 /*!
  * Disable interrupts, begins critical section
- * 
+ *
  * \param [IN] mask Pointer to a variable where to store the CPU IRQ mask
  */
 void BoardCriticalSectionBegin( uint32_t *mask );
 
 /*!
  * Ends critical section
- * 
+ *
  * \param [IN] mask Pointer to a variable where the CPU IRQ mask was stored
  */
 void BoardCriticalSectionEnd( uint32_t *mask );
+
+/*!
+ * Begins critical section
+ */
+#define CRITICAL_SECTION_BEGIN( ) uint32_t mask; BoardCriticalSectionBegin( &mask )
+
+/*!
+ * Ends critical section
+ */
+#define CRITICAL_SECTION_END( ) BoardCriticalSectionEnd( &mask )
+
+/*!
+ * Possible power sources
+ */
+enum BoardPowerSources
+{
+    USB_POWER = 0,
+    BATTERY_POWER,
+};
+
+/*!
+ * \brief Initializes the mcu.
+ */
+void BoardInitMcu( void );
+
+/*!
+ * \brief Resets the mcu.
+ */
+void BoardResetMcu( void );
+
+/*!
+ * \brief Initializes the boards peripherals.
+ */
+void BoardInitPeriph( void );
+
+/*!
+ * \brief De-initializes the target board peripherals to decrease power
+ *        consumption.
+ */
+void BoardDeInitMcu( void );
+
+/*!
+ * \brief Gets the current potentiometer level value
+ *
+ * \retval value  Potentiometer level ( value in percent )
+ */
+uint8_t BoardGetPotiLevel( void );
+
+/*!
+ * \brief Measure the Battery voltage
+ *
+ * \retval value  battery voltage in volts
+ */
+uint32_t BoardGetBatteryVoltage( void );
+
+/*!
+ * \brief Get the current battery level
+ *
+ * \retval value  battery level [  0: USB,
+ *                                 1: Min level,
+ *                                 x: level
+ *                               254: fully charged,
+ *                               255: Error]
+ */
+uint8_t BoardGetBatteryLevel( void );
+
+/*!
+ * Returns a pseudo random seed generated using the MCU Unique ID
+ *
+ * \retval seed Generated pseudo random seed
+ */
+uint32_t BoardGetRandomSeed( void );
+
+/*!
+ * \brief Gets the board 64 bits unique ID
+ *
+ * \param [IN] id Pointer to an array that will contain the Unique ID
+ */
+void BoardGetUniqueId( uint8_t *id );
+
+/*!
+ * \brief Manages the entry into ARM cortex deep-sleep mode
+ */
+void BoardLowPowerHandler( void );
+
+/*!
+ * \brief Get the board power source
+ *
+ * \retval value  power source [0: USB_POWER, 1: BATTERY_POWER]
+ */
+uint8_t GetBoardPowerSource( void );
+
+/*!
+ * \brief Get the board version
+ *
+ * \retval value  Version
+ */
+Version_t BoardGetVersion( void );
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __UTILITIES_H__
+#endif // __BOARD_H__

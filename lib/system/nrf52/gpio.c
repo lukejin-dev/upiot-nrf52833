@@ -25,8 +25,8 @@
  * \author    Gregory Cristian ( Semtech )
  */
 #include <nrfx_gpiote.h>
+#include "board.h"
 #include "gpio.h"
-#include "utilities.h"
 
 static Gpio_t *GpioIrq[IOE_0];
 

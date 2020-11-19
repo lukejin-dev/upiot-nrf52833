@@ -2,27 +2,26 @@
  * UpIoT
  */
 
+#include <stdlib.h>
+#include "sdk_common.h"
 #include "board.h"
 #include "spi.h"
 #include "nrfx_spim.h"
 
 #define SPI_MAX_BUF_SIZE 64
-// static  const nrfx_spim_t   Spi_Id[3] = { NRFX_SPIM_INSTANCE(0), NRFX_SPIM_INSTANCE(1), NRFX_SPIM_INSTANCE(2) };
+
 #if NRFX_CHECK(NRFX_SPIM0_ENABLED)
-    static const nrfx_spim_t Spi_ID_0 = NRFX_SPIM_INSTANCE(0);
-#else
-    static const nrfx_spim_t Spi_ID_0 = { 0 };
+    static const nrfx_spim_t mSpiId_0 = NRFX_SPIM_INSTANCE(0);
 #endif
+
 #if NRFX_CHECK(NRFX_SPIM1_ENABLED)
-    static const nrfx_spim_t Spi_ID_1 = NRFX_SPIM_INSTANCE(1);
-#else
-    static const nrfx_spim_t Spi_ID_1 = { 0 };
+    static const nrfx_spim_t mSpiId_1 = NRFX_SPIM_INSTANCE(1);
 #endif
+
 #if NRFX_CHECK(NRFX_SPIM2_ENABLED)
-    static const nrfx_spim_t Spi_ID_2 = NRFX_SPIM_INSTANCE(2);
-#else
-    static const nrfx_spim_t Spi_ID_2 = { 0 };
+    static const nrfx_spim_t mSpiId_2 = NRFX_SPIM_INSTANCE(2);
 #endif
+
 // static const nrfx_spim_t Spi_ID = NRFX_SPIM_INSTANCE(0);
 static uint8_t g_spi_rx_buf[SPI_MAX_BUF_SIZE] = { 0 };
 // static uint8_t tx_buf[SPI_MAX_BUF_SIZE] = { 0 };
@@ -56,15 +55,27 @@ void SpiInit( Spi_t *obj, SpiIds_t spiId, PinNames mosi, PinNames miso, PinNames
 
     if( spiId == SPI_0 )
     {
-        obj->Spi_Inst = Spi_ID_0;
+#if NRFX_CHECK(NRFX_SPIM0_ENABLED)
+        obj->SpiInst = (void*)&mSpiId_0;
+#else
+        ASSERT( false );
+#endif // NRFX_CHECK(NRFX_SPIM0_ENABLED)
     }
     else if( spiId == SPI_1 )
     {
-        obj->Spi_Inst = Spi_ID_1;
+#if NRFX_CHECK(NRFX_SPIM1_ENABLED)
+        obj->SpiInst = (void*)&mSpiId_1;
+#else
+        ASSERT( false );
+#endif // NRFX_CHECK(NRFX_SPIM1_ENABLED)
     }
     else if( spiId == SPI_2 )
     {
-        obj->Spi_Inst = Spi_ID_2;
+#if NRFX_CHECK(NRFX_SPIM2_ENABLED)
+        obj->SpiInst = (void*)&mSpiId_2;
+#else
+        ASSERT( false );
+#endif
     }
     else
     {
@@ -85,7 +96,7 @@ void SpiInit( Spi_t *obj, SpiIds_t spiId, PinNames mosi, PinNames miso, PinNames
 	*(volatile uint32_t *)0x40003FFC;
 	*(volatile uint32_t *)0x40003FFC = 1;
 
-    APP_ERROR_CHECK( nrfx_spim_init( &obj->Spi_Inst, &Spi_Config, NULL, NULL ) );
+    APP_ERROR_CHECK( nrfx_spim_init( obj->SpiInst, &Spi_Config, NULL, NULL ) );
 
     CRITICAL_SECTION_END( );
 }
@@ -101,7 +112,7 @@ void SpiDeInit( Spi_t *obj )
 	*(volatile uint32_t *)0x40003FFC;
 	*(volatile uint32_t *)0x40003FFC = 0;
 
-    nrfx_spim_uninit( &obj->Spi_Inst );
+    nrfx_spim_uninit( obj->SpiInst );
 
     // GpioDeInit( &obj->Mosi );
     // GpioDeInit( &obj->Miso );
@@ -206,7 +217,7 @@ void SpiInOut( Spi_t *obj, uint8_t *txData , uint8_t tx_len, uint8_t *rxData, ui
         Spi_Transfer_Descriptor.rx_length = rx_len + tx_len;
     }
 
-    APP_ERROR_CHECK( nrfx_spim_xfer( &obj->Spi_Inst, &Spi_Transfer_Descriptor, 0 ) );
+    APP_ERROR_CHECK( nrfx_spim_xfer( obj->SpiInst, &Spi_Transfer_Descriptor, 0 ) );
 #ifdef  SPI_DEBUG
     NRF_LOG_INFO("Spi Send Data:");
     NRF_LOG_HEXDUMP_INFO( txData, tx_len );
@@ -249,7 +260,7 @@ void SpiWirte( Spi_t *obj, uint8_t *writeData, uint8_t len )
     Spi_Transfer_Descriptor.p_rx_buffer = NULL;
     Spi_Transfer_Descriptor.rx_length = 0;
 
-    APP_ERROR_CHECK( nrfx_spim_xfer( &obj->Spi_Inst, &Spi_Transfer_Descriptor, 0 ) );
+    APP_ERROR_CHECK( nrfx_spim_xfer( obj->SpiInst, &Spi_Transfer_Descriptor, 0 ) );
 #ifdef  SPI_DEBUG
     NRF_LOG_INFO("Spi Send Data:");
     NRF_LOG_HEXDUMP_INFO( writeData, len );
@@ -282,7 +293,7 @@ void SpiRead( Spi_t *obj, uint8_t *readData, uint8_t len )
     Spi_Transfer_Descriptor.p_rx_buffer = readData;
     Spi_Transfer_Descriptor.rx_length = len;
 
-    APP_ERROR_CHECK( nrfx_spim_xfer( &obj->Spi_Inst, &Spi_Transfer_Descriptor, 0 ) );
+    APP_ERROR_CHECK( nrfx_spim_xfer( obj->SpiInst, &Spi_Transfer_Descriptor, 0 ) );
 #ifdef  SPI_DEBUG
     NRF_LOG_INFO("Spi Recv Data:");
     NRF_LOG_HEXDUMP_INFO( readData, len );

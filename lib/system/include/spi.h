@@ -76,11 +76,11 @@ typedef enum
 typedef struct Spi_s
 {
     SpiIds_t SpiId;
-    nrfx_spim_t Spi_Inst;
-    Gpio_t Mosi;
-    Gpio_t Miso;
-    Gpio_t Sclk;
-    Gpio_t Nss;
+    void*    SpiInst;
+    Gpio_t   Mosi;
+    Gpio_t   Miso;
+    Gpio_t   Sclk;
+    Gpio_t   Nss;
 }Spi_t;
 
 /*!

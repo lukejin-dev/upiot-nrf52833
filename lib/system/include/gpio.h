@@ -202,6 +202,8 @@ void GpioToggle( Gpio_t *obj );
  */
 uint32_t GpioRead( Gpio_t *obj );
 
+void GpioDeInit(Gpio_t *obj);
+
 #ifdef __cplusplus
 }
 #endif

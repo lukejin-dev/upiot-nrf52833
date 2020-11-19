@@ -4,10 +4,13 @@
  * Author: Lu Ken
  */
 
+#include "sdk_common.h"
 #include "gpio.h"
 #include "spi.h"
 #include "sx126x.h"
 #include "sx126x-dev.h"
+#include "delay.h"
+#include "board.h"
 
 /*!
  * Antenna switch GPIO pins objects
