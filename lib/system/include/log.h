@@ -6,8 +6,7 @@
 #ifndef _UPIOT_LOG_H_
 #define _UPIOT_LOG_H_
 
-// TODO: implement in future to decouple the dependency of nRF SDK
-#include "nrf_log.h"
+#include <stdint.h>
 
 typedef enum
 {
@@ -21,12 +20,18 @@ typedef enum
 
 void up_log_0(uint32_t severity, char const * const p_str);
 void up_log_1(uint32_t severity, char const * const p_str, uint32_t val0);
-void up_log_2(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1);
-void up_log_3(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1, uint32_t val2);
-void up_log_4(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1, uint32_t val2, uint32_t val3);
-void up_log_5(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1, uint32_t val2, uint32_t val3, uint32_t val4);
-void up_log_6(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1, uint32_t val2, uint32_t val3, uint32_t val4, uint32_t val5);
-void up_log_hexdump(uint32_t severity_mid, const void * const p_data, uint16_t length);
+void up_log_2(uint32_t severity, char const * const p_str, uint32_t val0,
+    uint32_t val1);
+void up_log_3(uint32_t severity, char const * const p_str, uint32_t val0,
+    uint32_t val1, uint32_t val2);
+void up_log_4(uint32_t severity, char const * const p_str, uint32_t val0,
+    uint32_t val1, uint32_t val2, uint32_t val3);
+void up_log_5(uint32_t severity, char const * const p_str, uint32_t val0,
+    uint32_t val1, uint32_t val2, uint32_t val3, uint32_t val4);
+void up_log_6(uint32_t severity, char const * const p_str, uint32_t val0,
+    uint32_t val1, uint32_t val2, uint32_t val3, uint32_t val4, uint32_t val5);
+void up_log_hexdump(uint32_t severity_mid, const void * const p_data,
+    uint16_t length);
 
 #define UP_LOG_INTERNAL_X(N, ...)          CONCAT_2(UP_LOG_INTERNAL_, N) (__VA_ARGS__)
 #define UP_LOG_INTERNAL(type, ...) UP_LOG_INTERNAL_X(NUM_VA_ARGS_LESS_1( \
@@ -73,10 +78,14 @@ void up_log_hexdump(uint32_t severity_mid, const void * const p_data, uint16_t l
         up_log_hexdump((level), (p_data), (length));  \
     }                                                       \
 
-#define UP_HEXDUMP_INFO(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_INFO, (p_data), (length))
-#define UP_HEXDUMP_DEBUG(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_DEBUG, (p_data), (length))
-#define UP_HEXDUMP_WARN(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_WARNING, (p_data), (length))
-#define UP_HEXDUMP_ERROR(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_ERROR, (p_data), (length))
+#define UP_HEXDUMP_INFO(p_data, length) \
+    UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_INFO, (p_data), (length))
+#define UP_HEXDUMP_DEBUG(p_data, length) \
+    UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_DEBUG, (p_data), (length))
+#define UP_HEXDUMP_WARN(p_data, length) \
+    UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_WARNING, (p_data), (length))
+#define UP_HEXDUMP_ERROR(p_data, length) \
+    UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_ERROR, (p_data), (length))
 
 void up_log_init( void );
 
