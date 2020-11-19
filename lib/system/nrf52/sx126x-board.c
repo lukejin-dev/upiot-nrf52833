@@ -8,7 +8,7 @@
 #include "gpio.h"
 #include "spi.h"
 #include "sx126x.h"
-#include "sx126x-dev.h"
+#include "sx126x-board.h"
 #include "delay.h"
 #include "board.h"
 

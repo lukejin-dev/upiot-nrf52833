@@ -1,41 +1,17 @@
-/*!
- * \file      sx126x-board.h
- *
- * \brief     Target board SX126x driver implementation
- *
- * \copyright Revised BSD License, see section \ref LICENSE.
- *
- * \code
- *                ______                              _
- *               / _____)             _              | |
- *              ( (____  _____ ____ _| |_ _____  ____| |__
- *               \____ \| ___ |    (_   _) ___ |/ ___)  _ \
- *               _____) ) ____| | | || |_| ____( (___| | | |
- *              (______/|_____)_|_|_| \__)_____)\____)_| |_|
- *              (C)2013-2017 Semtech
- *
- * \endcode
- *
- * \author    Miguel Luis ( Semtech )
- *
- * \author    Gregory Cristian ( Semtech )
+/**
+ * UpIoT
  */
-#ifndef __SX126x_BOARD_H__
-#define __SX126x_BOARD_H__
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+#ifndef _SX126X_DEV_H_
+#define _SX126X_DEV_H_
 
-#include <stdint.h>
-#include <stdbool.h>
-#include "sx126x/sx126x.h"
+#include "sx126x.h"
 
 /*!
  * \brief Initializes the radio I/Os pins interface
  */
-void SX126xIoInit( void );
+void SX126xIoInit( PinNames pinBusy, PinNames pinDio1,
+    PinNames pinReset, PinNames pinAntSwitch );
 
 /*!
  * \brief Initializes DIO IRQ handlers
@@ -181,8 +157,4 @@ void SX126xSetOperatingMode( RadioOperatingModes_t mode );
  */
 extern SX126x_t SX126x;
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif // __SX126x_BOARD_H__
+#endif // _SX126X_DEV_H_
