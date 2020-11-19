@@ -26,6 +26,7 @@ void up_log_3(uint32_t severity, char const * const p_str, uint32_t val0, uint32
 void up_log_4(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1, uint32_t val2, uint32_t val3);
 void up_log_5(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1, uint32_t val2, uint32_t val3, uint32_t val4);
 void up_log_6(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1, uint32_t val2, uint32_t val3, uint32_t val4, uint32_t val5);
+void up_log_hexdump(uint32_t severity_mid, const void * const p_data, uint16_t length);
 
 #define UP_LOG_INTERNAL_X(N, ...)          CONCAT_2(UP_LOG_INTERNAL_, N) (__VA_ARGS__)
 #define UP_LOG_INTERNAL(type, ...) UP_LOG_INTERNAL_X(NUM_VA_ARGS_LESS_1( \
@@ -53,8 +54,8 @@ void up_log_6(uint32_t severity, char const * const p_str, uint32_t val0, uint32
 
 #define UP_LOG_LEVEL UP_LOG_SEVERITY_DEBUG
 
-#define UP_LOG_COMMON(level, ...)                     \
-    if (UP_LOG_LEVEL >= level)                           \
+#define UP_LOG_COMMON(level, ...)                       \
+    if (UP_LOG_LEVEL >= level)                          \
     {                                                   \
         UP_LOG_INTERNAL(level, __VA_ARGS__);            \
     }                                                   \
@@ -64,6 +65,18 @@ void up_log_6(uint32_t severity, char const * const p_str, uint32_t val0, uint32
 #define UP_WARN(...)     UP_LOG_COMMON(UP_LOG_SEVERITY_WARNING, __VA_ARGS__)
 #define UP_ERROR(...)    UP_LOG_COMMON(UP_LOG_SEVERITY_ERROR, __VA_ARGS__)
 
+void up_log_hexdump(uint32_t severity_mid, const void * const p_data, uint16_t length);
+
+#define UP_LOG_HEXDUMP_INTERNAL(level, p_data, length)      \
+    if (UP_LOG_LEVEL >= level)                              \
+    {                                                       \
+        up_log_hexdump((level), (p_data), (length));  \
+    }                                                       \
+
+#define UP_LOG_HEXDUMP_INFO(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_INFO, (p_data), (length))
+#define UP_LOG_HEXDUMP_DEBUG(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_DEBUG, (p_data), (length))
+#define UP_LOG_HEXDUMP_WARN(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_WARNING, (p_data), (length))
+#define UP_LOG_HEXDUMP_ERROR(p_data, length) UP_LOG_HEXDUMP_INTERNAL(UP_LOG_SEVERITY_ERROR, (p_data), (length))
 
 void up_log_init( void );
 

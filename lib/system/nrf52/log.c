@@ -2,13 +2,15 @@
  * UpIot
  */
 
+#define NRF_LOG_MODULE_NAME up
+
 #include "log.h"
 #include "sdk_common.h"
 #include "nrf_log_ctrl.h"
 #include "app_error.h"
 #include "nrf_log_default_backends.h"
-
-#define UP_LOG_MODULE_NAME "up"
+#include "nrf_log.h"
+NRF_LOG_MODULE_REGISTER();
 
 void up_log_init( void )
 {
@@ -51,4 +53,9 @@ void up_log_5(uint32_t severity, char const * const p_str, uint32_t val0, uint32
 void up_log_6(uint32_t severity, char const * const p_str, uint32_t val0, uint32_t val1, uint32_t val2, uint32_t val3, uint32_t val4, uint32_t val5)
 {
     nrf_log_frontend_std_6(severity | NRF_LOG_MODULE_ID << NRF_LOG_MODULE_ID_POS, p_str, val0, val1, val2, val3, val4, val5);
+}
+
+void up_log_hexdump(uint32_t severity_mid, const void * const p_data, uint16_t length)
+{
+    nrf_log_frontend_hexdump(severity_mid | NRF_LOG_MODULE_ID << NRF_LOG_MODULE_ID_POS, p_data, length);
 }
