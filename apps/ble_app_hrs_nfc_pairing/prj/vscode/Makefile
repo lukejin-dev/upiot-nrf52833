@@ -87,7 +87,6 @@ SRC_FILES += \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_init.c \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_rng.c \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_shared.c \
-  $(PROJ_DIR)/src/main.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_ble.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_soc.c \
@@ -143,7 +142,13 @@ SRC_FILES += \
   $(LIB_DIR)/system/nrf52/log.c \
   $(LIB_DIR)/system/nrf52/spi.c \
   $(LIB_DIR)/system/nrf52/board.c \
+  $(LIB_DIR)/system/nrf52/delay.c \
+  $(LIB_DIR)/system/nrf52/timer.c \
   $(LIB_DIR)/system/nrf52/sx126x-board.c \
+
+SRC_FILES += \
+  $(PROJ_DIR)/src/main.c \
+  $(PROJ_DIR)/src/classa.c \
 
 # Source files to lora SDK
 SRC_FILES += \
@@ -365,6 +370,7 @@ CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 # keep every function in a separate section, this allows linker to discard unused ones
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
 CFLAGS += -fno-builtin -fshort-enums
+CFLAGS += -DREGION_CN470
 
 # C++ flags common to all targets
 CXXFLAGS += $(OPT)
@@ -436,6 +442,9 @@ flash: default
 flash_softdevice:
 	@echo Flashing: s140_nrf52_7.2.0_softdevice.hex
 	nrfjprog -f nrf52 --program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_7.2.0_softdevice.hex --sectorerase
+	nrfjprog -f nrf52 --reset
+
+reset:
 	nrfjprog -f nrf52 --reset
 
 erase:

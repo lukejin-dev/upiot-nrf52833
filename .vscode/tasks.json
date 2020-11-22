@@ -108,6 +108,26 @@
         "isDefault": true,
       },
       "problemMatcher": "$gcc"
+    },
+    {
+      "label": "reset target device",
+      "type": "shell",
+      "command": "make reset",
+      "options": {
+        "cwd": "${workspaceFolder}/apps/${input:appName}/prj/vscode"
+      },
+      "windows": {
+        "options": {
+          "env": {
+            "PATH": "${config:arm-none-eabi.bin};${env:PATH}",
+          }
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true,
+      },
+      "problemMatcher": "$gcc"
     }
   ],
   "inputs": [

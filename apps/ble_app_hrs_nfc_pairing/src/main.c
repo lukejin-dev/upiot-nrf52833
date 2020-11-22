@@ -73,8 +73,7 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 #include "log.h"
-#include "sx126x-board.h"
-#include "board_config.h"
+#include "classa.h"
 
 #define DEVICE_NAME "Nordic_HRM_NFC"            /**< Name of device. Will be included in the advertising data. */
 #define MANUFACTURER_NAME "NordicSemiconductor" /**< Manufacturer. Will be passed to Device Information Service. */
@@ -874,9 +873,7 @@ int main(void)
     buttons_leds_init(&erase_bonds);
     power_management_init();
 
-    /** LoRa init */
-    SpiInit(&SX126x.Spi, SPI_2, SX126X_MOSI, SX126X_MISO, SX126X_SCLK, SX126X_NSS);
-    SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
+    up_lorawan_init();
 
     /** @snippet [NFC Pairing Lib usage_2] */
     ble_stack_init();

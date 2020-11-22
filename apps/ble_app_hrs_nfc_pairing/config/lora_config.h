@@ -1,0 +1,6 @@
+#ifndef _UP_LORA_CONFIG_
+#define _UP_LORA_CONFIG_
+
+#define ACTIVE_REGION LORAMAC_REGION_CN470
+
+#endif // _UP_LORA_CONFIG_
