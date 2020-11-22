@@ -5,9 +5,9 @@
 #define SX126X_RESET             P0_20
 #define SX126X_MOSI              P0_11
 #define SX126X_MISO              P0_15
-#define SX126X_SCLK              P1_09
+#define SX126X_SCLK              P1_08
 #define SX126X_NSS               P0_17
-#define SX126X_BUSY              P0_18
+#define SX126X_BUSY              P1_07
 #define SX126X_DIO1              P0_02
 
 #endif // __BOARD_CONFIG_H__
