@@ -34,8 +34,8 @@ static uint32_t mTcxoWakeupTime = 10; // default value
 
 extern SX126x_t SX126x;
 
-void SX126xIoInit(PinNames pinBusy, PinNames pinDio1, PinNames pinReset,
-    PinNames pinAntSwitch)
+void SX126xIoInit(PinNames pinBusy, PinNames pinDio1,
+    PinNames pinReset, PinNames pinAntSwitch)
 {
     mPinReset = pinReset;
     mPinAntSwitch = pinAntSwitch;
