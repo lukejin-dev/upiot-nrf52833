@@ -949,8 +949,8 @@ void up_lorawan_init( void )
     //BoardInitMcu( );
     //BoardInitPeriph( );
 
-    SpiInit( &SX126x.Spi, SPI_2, SX126X_MOSI, SX126X_MISO, SX126X_SCLK, SX126X_NSS );
-    SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
+    //SpiInit( &SX126x.Spi, SPI_2, SX126X_MOSI, SX126X_MISO, SX126X_SCLK, SX126X_NSS );
+    //SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
 
     macPrimitives.MacMcpsConfirm = McpsConfirm;
     macPrimitives.MacMcpsIndication = McpsIndication;

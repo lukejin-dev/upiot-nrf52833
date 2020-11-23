@@ -858,6 +858,12 @@ static void log_init(void)
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 }
 
+// TODO: KEN move to classa.c in future
+#include "board_config.h"
+#include "gpio.h"
+#include "sx126x.h"
+#include "sx126x-board.h"
+
 /**@brief Function for application main entry.
  */
 int main(void)
@@ -873,7 +879,11 @@ int main(void)
     buttons_leds_init(&erase_bonds);
     power_management_init();
 
-    up_lorawan_init();
+    // TODO: KEN move to classa.c in future
+    SpiInit( &SX126x.Spi, SPI_2, SX126X_MOSI, SX126X_MISO, SX126X_SCLK, SX126X_NSS );
+    SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
+
+    //up_lorawan_init();
 
     /** @snippet [NFC Pairing Lib usage_2] */
     ble_stack_init();
