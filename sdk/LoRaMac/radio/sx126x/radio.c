@@ -916,8 +916,8 @@ static uint32_t RadioGetGfskTimeOnAirNumerator( uint32_t datarate, uint8_t coder
              ( syncWordLength << 3 ) +
              ( ( payloadLen +
                ( addrComp == RADIO_ADDRESSCOMP_FILT_OFF ? 0 : 1 ) +
-               ( ( crcOn == true ) ? 2 : 0 ) 
-               ) << 3 
+               ( ( crcOn == true ) ? 2 : 0 )
+               ) << 3
              );
 }
 

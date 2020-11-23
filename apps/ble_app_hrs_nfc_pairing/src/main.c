@@ -879,12 +879,6 @@ int main(void)
     buttons_leds_init(&erase_bonds);
     power_management_init();
 
-    // TODO: KEN move to classa.c in future
-    SpiInit( &SX126x.Spi, SPI_2, SX126X_MOSI, SX126X_MISO, SX126X_SCLK, SX126X_NSS );
-    SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
-
-    up_lorawan_init();
-
     /** @snippet [NFC Pairing Lib usage_2] */
     ble_stack_init();
     gap_params_init();
@@ -905,6 +899,13 @@ int main(void)
     // Start execution.
     NRF_LOG_INFO("Heart Rate Sensor example started.");
     application_timers_start();
+
+    // TODO: KEN move to classa.c in future
+    SpiInit( &SX126x.Spi, SPI_2, SX126X_MOSI, SX126X_MISO, SX126X_SCLK, SX126X_NSS );
+    SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
+
+    //up_lorawan_init();
+    UP_INFO("haha");
 
     // Enter main loop.
     for (;;)

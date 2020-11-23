@@ -29,6 +29,7 @@ extern "C"
 #endif
 
 #include <stdint.h>
+#include "log.h"
 
 /*!
  * Generic definition

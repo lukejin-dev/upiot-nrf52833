@@ -961,6 +961,7 @@ void up_lorawan_init( void )
     macCallbacks.NvmContextChange = NvmCtxMgmtEvent;
     macCallbacks.MacProcessNotify = OnMacProcessNotify;
 
+    UP_INFO("111");
     status = LoRaMacInitialization( &macPrimitives, &macCallbacks, ACTIVE_REGION );
     if ( status != LORAMAC_STATUS_OK )
     {
@@ -973,7 +974,7 @@ void up_lorawan_init( void )
 
     DeviceState = DEVICE_STATE_RESTORE;
 
-    printf( "###### ===== ClassA demo application v1.0.0 ==== ######\n\n" );
+    UP_INFO( "###### ===== ClassA demo application v1.0.0 ==== ######\n\n" );
 }
 
 void up_lorawan_loop( void )
