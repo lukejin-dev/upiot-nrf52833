@@ -222,9 +222,9 @@ LoRaMacHandlerAppData_t AppData =
 /*!
  * LED GPIO pins objects
  */
-extern Gpio_t Led1; // Tx
-extern Gpio_t Led3; // Rx
-extern Gpio_t Led4; // App
+//extern Gpio_t Led1; // Tx
+//extern Gpio_t Led3; // Rx
+//extern Gpio_t Led4; // App
 
 /*!
  * MAC status strings
@@ -479,7 +479,7 @@ static void OnLed1TimerEvent( void* context )
 {
     TimerStop( &Led1Timer );
     // Switch LED 1 OFF
-    GpioWrite( &Led1, 0 );
+    //GpioWrite( &Led1, 0 );
 }
 
 /*!
@@ -489,7 +489,7 @@ static void OnLed3TimerEvent( void* context )
 {
     TimerStop( &Led3Timer );
     // Switch LED 3 OFF
-    GpioWrite( &Led3, 0 );
+    //GpioWrite( &Led3, 0 );
 }
 
 /*!
@@ -532,7 +532,7 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
         }
 
         // Switch LED 1 ON
-        GpioWrite( &Led1, 1 );
+        //GpioWrite( &Led1, 1 );
         TimerStart( &Led1Timer );
     }
     MibRequestConfirm_t mibGet;
@@ -668,7 +668,7 @@ static void McpsIndication( McpsIndication_t *mcpsIndication )
             if( mcpsIndication->BufferSize == 1 )
             {
                 AppLedStateOn = mcpsIndication->Buffer[0] & 0x01;
-                GpioWrite( &Led4, ( ( AppLedStateOn & 0x01 ) != 0 ) ? 1 : 0 );
+                //GpioWrite( &Led4, ( ( AppLedStateOn & 0x01 ) != 0 ) ? 1 : 0 );
             }
             break;
         case 224:
@@ -818,8 +818,8 @@ static void McpsIndication( McpsIndication_t *mcpsIndication )
     }
 
     // Switch LED 3 ON for each received downlink
-    GpioWrite( &Led3, 1 );
-    TimerStart( &Led3Timer );
+    //GpioWrite( &Led3, 1 );
+    //TimerStart( &Led3Timer );
 
     const char *slotStrings[] = { "1", "2", "C", "C Multicast", "B Ping-Slot", "B Multicast Ping-Slot" };
 

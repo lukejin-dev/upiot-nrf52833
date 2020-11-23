@@ -31,16 +31,20 @@ extern "C"
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include "app_timer.h"
 
 /*!
  * \brief Timer object description
  */
 typedef struct TimerEvent_s
 {
+    app_timer_t Timerobj;
+    app_timer_id_t TimerId;
+
     uint32_t Timestamp;                  //! Current timer value
     uint32_t ReloadValue;                //! Timer delay value
     bool IsStarted;                      //! Is the timer currently running
-    bool IsNext2Expire;                  //! Is the next timer to expire
+
     void ( *Callback )( void* context ); //! Timer IRQ callback function
     void *Context;                       //! User defined data object pointer to pass back
     struct TimerEvent_s *Next;           //! Pointer to the next Timer object.
@@ -63,20 +67,15 @@ typedef uint32_t TimerTime_t;
  * \param [IN] obj          Structure containing the timer object parameters
  * \param [IN] callback     Function callback called at the end of the timeout
  */
-void TimerInit( TimerEvent_t *obj, void ( *callback )( void *context ) );
+void TimerInit( TimerEvent_t *obj, void ( *callback )( void *context) );
 
-/*!
- * \brief Sets a user defined object pointer
- *
- * \param [IN] context User defined data object pointer to pass back
- *                     on IRQ handler callback
- */
-void TimerSetContext( TimerEvent_t *obj, void* context );
-
-/*!
- * Timer IRQ event handler
- */
-void TimerIrqHandler( void );
+// /*!
+//  * \brief Sets a user defined object pointer
+//  *
+//  * \param [IN] context User defined data object pointer to pass back
+//  *                     on IRQ handler callback
+//  */
+// void TimerSetContext( TimerEvent_t *obj, void* context );
 
 /*!
  * \brief Starts and adds the timer object to the list of timer events
@@ -144,14 +143,5 @@ TimerTime_t TimerGetElapsedTime( TimerTime_t past );
  * \retval Compensated time period
  */
 TimerTime_t TimerTempCompensation( TimerTime_t period, float temperature );
-
-/*!
- * \brief Processes pending timer events
- */
-void TimerProcess( void );
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // __TIMER_H__

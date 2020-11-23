@@ -23,7 +23,7 @@
  * \author    MCD Application Team ( STMicroelectronics International )
  */
 #include <stdio.h>
-#include "rtc-board.h"
+#include "rtc.h"
 #include "systime.h"
 
 #define END_OF_FEBRUARY_LEAP                         60 //31+29
@@ -104,7 +104,7 @@ SysTime_t SysTimeSub( SysTime_t a, SysTime_t b )
 void SysTimeSet( SysTime_t sysTime )
 {
     SysTime_t deltaTime;
-  
+
     SysTime_t calendarTime = { .Seconds = 0, .SubSeconds = 0 };
 
     calendarTime.Seconds = RtcGetCalendarTime( ( uint16_t* )&calendarTime.SubSeconds );
@@ -192,7 +192,7 @@ uint32_t SysTimeMkTime( const struct tm* localtime )
     // Convert from days to seconds
     nbsecs = nbdays * TM_SECONDS_IN_1DAY;
 
-    nbsecs += ( ( uint32_t )localtime->tm_sec + 
+    nbsecs += ( ( uint32_t )localtime->tm_sec +
                 ( ( uint32_t )localtime->tm_min * TM_SECONDS_IN_1MINUTE ) +
                 ( ( uint32_t )localtime->tm_hour * TM_SECONDS_IN_1HOUR ) );
     return nbsecs - UNIX_HOUR_OFFSET;

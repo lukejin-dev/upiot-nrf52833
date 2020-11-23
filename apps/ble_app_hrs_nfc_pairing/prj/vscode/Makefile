@@ -144,6 +144,8 @@ SRC_FILES += \
   $(LIB_DIR)/system/nrf52/board.c \
   $(LIB_DIR)/system/nrf52/delay.c \
   $(LIB_DIR)/system/nrf52/timer.c \
+  $(LIB_DIR)/system/nrf52/systime.c \
+  $(LIB_DIR)/system/nrf52/rtc.c \
   $(LIB_DIR)/system/nrf52/sx126x-board.c \
 
 SRC_FILES += \
@@ -164,6 +166,7 @@ SRC_FILES += \
   $(LORA_DIR)/mac/region/RegionCommon.c \
   $(LORA_DIR)/mac/region/RegionCN470.c \
   $(LORA_DIR)/mac/region/RegionUS915.c \
+  $(LORA_DIR)/apps/LoRaMac/common/NvmCtxMgmt.c \
   $(LORA_DIR)/radio/sx126x/radio.c \
   $(LORA_DIR)/radio/sx126x/sx126x.c \
 
@@ -337,6 +340,7 @@ INC_FOLDERS += \
   $(LORA_DIR)/peripherals/soft-se \
   $(LORA_DIR)/mac/region \
   $(LORA_DIR)/radio/sx126x \
+  $(LORA_DIR)/apps/LoRaMac/common/ \
   $(LIB_DIR)/system/include \
 
 # Libraries common to all targets
