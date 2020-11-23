@@ -176,13 +176,11 @@ void GpioSetContext(Gpio_t *obj, void *context)
 void GpioSetInterrupt(Gpio_t *obj, IrqModes irqMode, IrqAccuracys irqAccuracy,
     GpioIrqHandler *irqHandler)
 {
-    ret_code_t ret;
     if (obj->pin == NC)
     {
         ASSERT(FAIL);
     }
 
-    UP_INFO("GpioSetInterrupt1, %x, %x", obj->pin, IOE_0);
     if (obj->pin < IOE_0)
     {
         nrfx_gpiote_in_config_t Pin_Gpiote_Config;
@@ -215,7 +213,6 @@ void GpioSetInterrupt(Gpio_t *obj, IrqModes irqMode, IrqAccuracys irqAccuracy,
         {
             ASSERT(FAIL);
         }
-        UP_INFO("GpioSetInterrupt3 0x%x", irqAccuracy);
         if (irqAccuracy == IRQ_ACCURACY_HIGH)
         {
             Pin_Gpiote_Config.hi_accuracy = true;
@@ -235,10 +232,7 @@ void GpioSetInterrupt(Gpio_t *obj, IrqModes irqMode, IrqAccuracys irqAccuracy,
 
         GpioIrq[(obj->pin)] = obj;
 
-        ret = nrfx_gpiote_in_init(obj->pin, &Pin_Gpiote_Config, GpioIrqCallback);
-        UP_INFO("nrfx_gpiote_in_init ret: 0x%x, 0x%x, 0x%x", obj->pin, ret, NRFX_ERROR_NO_MEM);
-        APP_ERROR_CHECK(ret);
-        UP_INFO("GpioSetInterrupt4");
+        APP_ERROR_CHECK(nrfx_gpiote_in_init(obj->pin, &Pin_Gpiote_Config, GpioIrqCallback));
         nrfx_gpiote_in_event_enable(obj->pin, true);
     }
     else

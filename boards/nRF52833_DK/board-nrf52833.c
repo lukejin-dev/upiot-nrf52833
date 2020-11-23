@@ -197,36 +197,6 @@ void BoardSetDeviceType(uint8_t devtype)
 }
 **/
 
-void BoardGetBleMac( uint8_t *mac )
-{
-    ble_gap_addr_t device_addr;
-    APP_ERROR_CHECK( sd_ble_gap_addr_get( &device_addr ) );
-
-    for ( int i = 0; i < 6; i++ )
-    {
-        mac[i] = device_addr.addr[5 - i];
-    }
-    UP_INFO("BLE MAC:");
-    UP_HEXDUMP_INFO( mac, 6 );
-    UP_INFO("\r\n");
-}
-
-void BoardGetDevEui( uint8_t *id )
-{
-    uint8_t ble_mac[6];
-    BoardGetBleMac( ble_mac );
-    id[7] = ble_mac[5];
-    id[6] = ble_mac[4];
-    id[5] = ble_mac[3];
-    id[4] = ble_mac[2];
-    id[3] = ble_mac[1];
-    id[2] = ble_mac[0];
-    //id[1] = CurrentDeviceType;    // 表示设备类型,  0x01 空气温湿度传感器, 0x03 土壤温湿度传感器， 0x05 一氧化碳传感器, 0x07 倾角传感器, 0x09 超声波水位传感器, 0x10 距离传感器, 0xA2 土壤PH传感器
-    id[0] = 0x16;   // 固定字节，表示属于互由的设备
-}
-
-
-
 uint16_t BoardBatteryMeasureVolage( void )
 {
     return 0;
@@ -244,14 +214,18 @@ uint8_t BoardGetBatteryLevel( void )
 
 void BoardGetUniqueId( uint8_t *id )
 {
-    id[7] = ( ( *( uint32_t* )ID1 )+ ( *( uint32_t* )ID3 ) ) >> 24;
-    id[6] = ( ( *( uint32_t* )ID1 )+ ( *( uint32_t* )ID3 ) ) >> 16;
-    id[5] = ( ( *( uint32_t* )ID1 )+ ( *( uint32_t* )ID3 ) ) >> 8;
-    id[4] = ( ( *( uint32_t* )ID1 )+ ( *( uint32_t* )ID3 ) );
-    id[3] = ( ( *( uint32_t* )ID2 ) ) >> 24;
-    id[2] = ( ( *( uint32_t* )ID2 ) ) >> 16;
-    id[1] = ( ( *( uint32_t* )ID2 ) ) >> 8;
-    id[0] = ( ( *( uint32_t* )ID2 ) );
+    ble_gap_addr_t device_addr;
+    APP_ERROR_CHECK( sd_ble_gap_addr_get( &device_addr ) );
+
+    for ( int i = 0; i < 6; i++ )
+    {
+        id[i] = device_addr.addr[5 - i];
+    }
+
+    id[6] = 0x0;
+    id[7] = 0x0;
+    UP_INFO("Board ID:")
+    UP_HEXDUMP_INFO(&id[0], 8);
 }
 
 // void CalibrateSystemWakeupTime( void )
