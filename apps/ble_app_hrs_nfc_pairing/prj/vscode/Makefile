@@ -163,10 +163,10 @@ SRC_FILES += \
   $(LORA_DIR)/mac/LoRaMacParser.c \
   $(LORA_DIR)/mac/LoRaMacSerializer.c \
   $(LORA_DIR)/mac/region/Region.c \
+  $(LORA_DIR)/mac/region/RegionBaseUS.c \
   $(LORA_DIR)/mac/region/RegionCommon.c \
   $(LORA_DIR)/mac/region/RegionCN470.c \
   $(LORA_DIR)/mac/region/RegionUS915.c \
-  $(LORA_DIR)/apps/LoRaMac/common/NvmCtxMgmt.c \
   $(LORA_DIR)/radio/sx126x/radio.c \
   $(LORA_DIR)/radio/sx126x/sx126x.c \
 
@@ -175,11 +175,12 @@ SRC_FILES += \
   $(BOARD_DIR)\board-nrf52833.c
 
 # Encryption for Lora SDK, which is conflicted with nRF SDK
-#SRC_FILES += \
-#  $(LORA_DIR)/peripherals/soft-se/aes.c \
-#  $(LORA_DIR)/peripherals/soft-se/cmac.c \
-#  $(LORA_DIR)/peripherals/soft-se/soft-se.c \
-#  $(LORA_DIR)/apps/LoRaMac/common/NvmCtxMgmt.c \
+SRC_FILES += \
+  $(LORA_DIR)/peripherals/soft-se/soft-aes.c \
+  $(LORA_DIR)/peripherals/soft-se/soft-cmac.c \
+  $(LORA_DIR)/peripherals/soft-se/soft-se-hal.c \
+  $(LORA_DIR)/peripherals/soft-se/soft-se.c \
+  $(LORA_DIR)/apps/LoRaMac/common/NvmCtxMgmt.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \

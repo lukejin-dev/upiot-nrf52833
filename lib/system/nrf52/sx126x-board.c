@@ -312,3 +312,8 @@ void SX126xDbgPinRxWrite( uint8_t state )
     GpioWrite( &DbgPinRx, state );
 }
 #endif
+
+void SX126xIoRfSwitchInit( void )
+{
+    SX126xSetDio2AsRfSwitchCtrl( true );
+}
