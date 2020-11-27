@@ -87,6 +87,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_init.c \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_rng.c \
   $(SDK_ROOT)/components/libraries/crypto/nrf_crypto_shared.c \
+  $(SDK_ROOT)/components/libraries/crc32/crc32.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_ble.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_soc.c \
@@ -147,6 +148,7 @@ SRC_FILES += \
   $(LIB_DIR)/system/nrf52/systime.c \
   $(LIB_DIR)/system/nrf52/rtc.c \
   $(LIB_DIR)/system/nrf52/sx126x-board.c \
+  $(LIB_DIR)/system/nrf52/utilities.c \
 
 SRC_FILES += \
   $(PROJ_DIR)/src/main.c \

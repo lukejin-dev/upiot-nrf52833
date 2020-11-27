@@ -212,22 +212,6 @@ uint8_t BoardGetBatteryLevel( void )
     return 0;
 }
 
-void BoardGetUniqueId( uint8_t *id )
-{
-    ble_gap_addr_t device_addr;
-    APP_ERROR_CHECK( sd_ble_gap_addr_get( &device_addr ) );
-
-    for ( int i = 0; i < 6; i++ )
-    {
-        id[i] = device_addr.addr[5 - i];
-    }
-
-    id[6] = 0x0;
-    id[7] = 0x0;
-    UP_INFO("Board ID:")
-    UP_HEXDUMP_INFO(&id[0], 8);
-}
-
 // void CalibrateSystemWakeupTime( void )
 // {
 //     if( SystemWakeupTimeCalibrated == false )

@@ -61,4 +61,13 @@
 #define LORAWAN_NETWORK_ID                                 ( uint32_t )0
 
 #define ACTIVE_REGION                                      LORAMAC_REGION_CN470
+
+/*!
+ * STATIC_DEVICE_ADDRESS was defined in se-identity.h, override it.
+ */
+#ifdef STATIC_DEVICE_ADDRESS
+#undef STATIC_DEVICE_ADDRESS
+#define STATIC_DEVICE_ADDRESS                              1
+#endif
+
 #endif // __COMMISSIONING_H__

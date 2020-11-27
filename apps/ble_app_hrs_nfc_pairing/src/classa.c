@@ -961,17 +961,18 @@ void up_lorawan_init( void )
 
     DeviceState = DEVICE_STATE_RESTORE;
 
-    NRF_LOG_INFO( "###### ===== ClassA demo application v1.0.0 ==== ######\n\n" );
+    NRF_LOG_INFO( "###### ===== ClassA demo application v1.0.0 ==== ######" );
 }
 
-static uint8_t mDevEui[8] = { 0 };  // Automatically filed from secure-element
-static uint8_t joinEui[8] = { 0 }; // Automatically filed from secure-element
-static uint8_t sePin[4] = { 0 };   // Automatically filed from secure-element
-static MibRequestConfirm_t mibReq;
-static LoRaMacStatus_t status;
+static uint8_t mDevEui[8] = { 0 };   // Automatically filed from secure-element
+static uint8_t mJoinEui[8] = { 0 };  // Automatically filed from secure-element
+static uint8_t mSePin[4] = { 0 };    // Automatically filed from secure-element
 
 void up_lorawan_loop( void )
 {
+    MibRequestConfirm_t mibReq;
+    LoRaMacStatus_t status;
+
     // Process Radio IRQ
     if( Radio.IrqProcess != NULL )
     {
@@ -998,11 +999,11 @@ void up_lorawan_loop( void )
 
                 mibReq.Type = MIB_JOIN_EUI;
                 LoRaMacMibGetRequestConfirm( &mibReq );
-                memcpy1( joinEui, mibReq.Param.JoinEui, 8 );
+                memcpy1( mJoinEui, mibReq.Param.JoinEui, 8 );
 
                 mibReq.Type = MIB_SE_PIN;
                 LoRaMacMibGetRequestConfirm( &mibReq );
-                memcpy1( sePin, mibReq.Param.SePin, 4 );
+                memcpy1( mSePin, mibReq.Param.SePin, 4 );
 
 #if( OVER_THE_AIR_ACTIVATION == 0 )
                 // Tell the MAC layer which network server version are we connecting too.
@@ -1022,7 +1023,10 @@ void up_lorawan_loop( void )
                 // Choose a random device address
                 DevAddr = randr( 0, 0x01FFFFFF );
 #endif
-
+                if (DevAddr == 0) {
+                    DevAddr = BoardGetDevAddr();
+                    NRF_LOG_INFO("Board Address: 0x%x", DevAddr);
+                }
                 mibReq.Type = MIB_DEV_ADDR;
                 mibReq.Param.DevAddr = DevAddr;
                 LoRaMacMibSetRequestConfirm( &mibReq );
@@ -1080,40 +1084,16 @@ void up_lorawan_loop( void )
         {
             mibReq.Type = MIB_DEV_EUI;
             LoRaMacMibGetRequestConfirm( &mibReq );
-            /**
-            NRF_LOG_INFO( "DevEui      : %02X", mibReq.Param.DevEui[0] );
-            for( int i = 1; i < 8; i++ )
-            {
-                NRF_LOG_INFO( "-%02X", mibReq.Param.DevEui[i] );
-            }
-            NRF_LOG_INFO( "\n" );
-            **/
             NRF_LOG_INFO("DEV EUI:");
             NRF_LOG_HEXDUMP_INFO(mibReq.Param.DevEui, 8);
 
             mibReq.Type = MIB_JOIN_EUI;
             LoRaMacMibGetRequestConfirm( &mibReq );
-            /**
-            NRF_LOG_INFO( "JoinEui     : %02X", mibReq.Param.JoinEui[0] );
-            for( int i = 1; i < 8; i++ )
-            {
-                NRF_LOG_INFO( "-%02X", mibReq.Param.JoinEui[i] );
-            }
-            NRF_LOG_INFO( "\n" );
-            **/
             NRF_LOG_INFO("JOIN EUI:");
             NRF_LOG_HEXDUMP_INFO(mibReq.Param.JoinEui, 8);
 
             mibReq.Type = MIB_SE_PIN;
             LoRaMacMibGetRequestConfirm( &mibReq );
-            /**
-            NRF_LOG_INFO( "Pin         : %02X", mibReq.Param.SePin[0] );
-            for( int i = 1; i < 4; i++ )
-            {
-                NRF_LOG_INFO( "-%02X", mibReq.Param.SePin[i] );
-            }
-            NRF_LOG_INFO( "\n\n" );
-            **/
             NRF_LOG_INFO("SE PIN:");
             NRF_LOG_HEXDUMP_INFO(mibReq.Param.SePin, 4);
 
