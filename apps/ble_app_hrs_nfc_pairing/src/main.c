@@ -198,6 +198,7 @@ static void battery_level_update(void)
 {
     ret_code_t err_code;
     uint8_t battery_level;
+    static uint32_t count=0;
 
     //NRF_LOG_INFO("==> battery_level_update");
 
@@ -872,8 +873,8 @@ int main(void)
 
     // Initialize.
     log_init();
-    UP_INFO("UpIOT Start");
-    UP_HEXDUMP_INFO(&erase_bonds, 2);
+    NRF_LOG_INFO("UpIOT Start");
+    NRF_LOG_HEXDUMP_INFO(&erase_bonds, 2);
 
     timers_init();
     buttons_leds_init(&erase_bonds);
@@ -905,11 +906,11 @@ int main(void)
     SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
 
     up_lorawan_init();
-    UP_INFO("haha");
 
     // Enter main loop.
     for (;;)
     {
+        up_lorawan_loop();
         idle_state_handle();
     }
 }
