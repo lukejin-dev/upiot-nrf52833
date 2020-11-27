@@ -23,11 +23,11 @@
  ******************************************************************************
  ********************************** WARNING ***********************************
  ******************************************************************************
- 
+
  The LoRaWAN AES128 keys are stored and provisionned on secure-elements.
- 
+
  This project providdes a software emulated secure-element.
- The LoRaWAN AES128 keys SHALL be updated under 
+ The LoRaWAN AES128 keys SHALL be updated under
  src/peripherals/<secure-element name>-se\se-identity.h file.
 
  ******************************************************************************
@@ -40,7 +40,7 @@
  * When set to 1 the application uses the Over-the-Air activation procedure
  * When set to 0 the application uses the Personalization activation procedure
  */
-#define OVER_THE_AIR_ACTIVATION                            1
+#define OVER_THE_AIR_ACTIVATION                            0
 
 /*!
  * When using ABP activation the MAC layer must know in advance to which server
@@ -60,4 +60,5 @@
  */
 #define LORAWAN_NETWORK_ID                                 ( uint32_t )0
 
+#define ACTIVE_REGION                                      LORAMAC_REGION_CN470
 #endif // __COMMISSIONING_H__

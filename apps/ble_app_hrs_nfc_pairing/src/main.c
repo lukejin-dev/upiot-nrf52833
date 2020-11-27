@@ -198,7 +198,6 @@ static void battery_level_update(void)
 {
     ret_code_t err_code;
     uint8_t battery_level;
-    static uint32_t count=0;
 
     //NRF_LOG_INFO("==> battery_level_update");
 

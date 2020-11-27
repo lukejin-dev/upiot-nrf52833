@@ -35,7 +35,6 @@
 #include "log.h"
 #include "spi.h"
 #include "board_config.h"
-#include "lora_config.h"
 #include "nrf_log.h"
 
 #ifndef ACTIVE_REGION
@@ -60,7 +59,7 @@
 /*!
  * Default datarate
  */
-#define LORAWAN_DEFAULT_DATARATE                    DR_0
+#define LORAWAN_DEFAULT_DATARATE                    DR_5
 
 /*!
  * LoRaWAN confirmed messages
@@ -72,7 +71,7 @@
  *
  * \remark Please note that when ADR is enabled the end-device should be static
  */
-#define LORAWAN_ADR_ON                              1
+#define LORAWAN_ADR_ON                              0
 
 #if defined( REGION_EU868 ) || defined( REGION_RU864 ) || defined( REGION_CN779 ) || defined( REGION_EU433 )
 
@@ -413,8 +412,8 @@ static bool SendFrame( void )
 
     LoRaMacStatus_t status;
     status = LoRaMacMcpsRequest( &mcpsReq );
-    NRF_LOG_INFO( "\n###### ===== MCPS-Request ==== ######\n" );
-    NRF_LOG_INFO( "STATUS      : %s\n", MacStatusStrings[status] );
+    NRF_LOG_INFO( "###### ===== MCPS-Request ==== ######" );
+    NRF_LOG_INFO( "STATUS      : %s", MacStatusStrings[status] );
 
     if( status == LORAMAC_STATUS_DUTYCYCLE_RESTRICTED )
     {
@@ -484,8 +483,8 @@ static void OnTxNextPacketTimerEvent( void* context )
  */
 static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
 {
-    NRF_LOG_INFO( "\n###### ===== MCPS-Confirm ==== ######\n" );
-    NRF_LOG_INFO( "STATUS      : %s\n", EventInfoStatusStrings[mcpsConfirm->Status] );
+    //NRF_LOG_INFO( "\n###### ===== MCPS-Confirm ==== ######\n" );
+    //NRF_LOG_INFO( "STATUS      : %s\n", EventInfoStatusStrings[mcpsConfirm->Status] );
     if( mcpsConfirm->Status != LORAMAC_EVENT_INFO_STATUS_OK )
     {
     }
@@ -525,42 +524,42 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
     mibReq.Type = MIB_DEVICE_CLASS;
     LoRaMacMibGetRequestConfirm( &mibReq );
 
-    NRF_LOG_INFO( "\n###### ===== UPLINK FRAME %lu ==== ######\n", mcpsConfirm->UpLinkCounter );
-    NRF_LOG_INFO( "\n" );
+    NRF_LOG_INFO("###### ===== UPLINK FRAME %lu ==== ######\n", mcpsConfirm->UpLinkCounter );
+    //NRF_LOG_INFO("\n" );
 
-    NRF_LOG_INFO( "CLASS       : %c\n", "ABC"[mibReq.Param.Class] );
-    NRF_LOG_INFO( "\n" );
-    NRF_LOG_INFO( "TX PORT     : %d\n", AppData.Port );
+    //NRF_LOG_INFO("CLASS       : %c\n", "ABC"[mibReq.Param.Class] );
+    //NRF_LOG_INFO("\n" );
+    //NRF_LOG_INFO("TX PORT     : %d\n", AppData.Port );
 
     if( AppData.BufferSize != 0 )
     {
         NRF_LOG_INFO( "TX DATA     : " );
         if( AppData.MsgType == LORAMAC_HANDLER_CONFIRMED_MSG )
         {
-            NRF_LOG_INFO( "CONFIRMED - %s\n", ( mcpsConfirm->AckReceived != 0 ) ? "ACK" : "NACK" );
+            NRF_LOG_INFO( "CONFIRMED - %s", ( mcpsConfirm->AckReceived != 0 ) ? "ACK" : "NACK" );
         }
         else
         {
-            NRF_LOG_INFO( "UNCONFIRMED\n" );
+            NRF_LOG_INFO( "UNCONFIRMED" );
         }
         NRF_LOG_HEXDUMP_INFO( AppData.Buffer, AppData.BufferSize );
     }
 
-    NRF_LOG_INFO( "\n" );
-    NRF_LOG_INFO( "DATA RATE   : DR_%d\n", mcpsConfirm->Datarate );
+    //NRF_LOG_INFO( "\n" );
+    NRF_LOG_INFO( "DATA RATE   : DR_%d", mcpsConfirm->Datarate );
 
     mibGet.Type  = MIB_CHANNELS;
     if( LoRaMacMibGetRequestConfirm( &mibGet ) == LORAMAC_STATUS_OK )
     {
-        NRF_LOG_INFO( "U/L FREQ    : %lu\n", mibGet.Param.ChannelList[mcpsConfirm->Channel].Frequency );
+        NRF_LOG_INFO( "U/L FREQ    : %lu", mibGet.Param.ChannelList[mcpsConfirm->Channel].Frequency );
     }
 
-    NRF_LOG_INFO( "TX POWER    : %d\n", mcpsConfirm->TxPower );
+    NRF_LOG_INFO( "TX POWER    : %d", mcpsConfirm->TxPower );
 
     mibGet.Type  = MIB_CHANNELS_MASK;
     if( LoRaMacMibGetRequestConfirm( &mibGet ) == LORAMAC_STATUS_OK )
     {
-        NRF_LOG_INFO("CHANNEL MASK: ");
+        //NRF_LOG_INFO("CHANNEL MASK: ");
 #if defined( REGION_AS923 ) || defined( REGION_CN779 ) || \
     defined( REGION_EU868 ) || defined( REGION_IN865 ) || \
     defined( REGION_KR920 ) || defined( REGION_EU433 ) || \
@@ -577,12 +576,12 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
 
 #endif
         {
-            NRF_LOG_INFO("%04X ", mibGet.Param.ChannelsMask[i] );
+            //NRF_LOG_INFO("%04X ", mibGet.Param.ChannelsMask[i] );
         }
-        NRF_LOG_INFO("\n");
+        //NRF_LOG_INFO("\n");
     }
 
-    NRF_LOG_INFO( "\n" );
+    //NRF_LOG_INFO( "\n" );
 }
 
 /*!
@@ -965,7 +964,7 @@ void up_lorawan_init( void )
     NRF_LOG_INFO( "###### ===== ClassA demo application v1.0.0 ==== ######\n\n" );
 }
 
-static uint8_t devEui[8] = { 0 };  // Automatically filed from secure-element
+static uint8_t mDevEui[8] = { 0 };  // Automatically filed from secure-element
 static uint8_t joinEui[8] = { 0 }; // Automatically filed from secure-element
 static uint8_t sePin[4] = { 0 };   // Automatically filed from secure-element
 static MibRequestConfirm_t mibReq;
@@ -988,14 +987,14 @@ void up_lorawan_loop( void )
             // Try to restore from NVM and query the mac if possible.
             if( NvmCtxMgmtRestore( ) == NVMCTXMGMT_STATUS_SUCCESS )
             {
-                NRF_LOG_INFO( "\n###### ===== CTXS RESTORED ==== ######\n\n" );
+                NRF_LOG_INFO( "###### ===== CTXS RESTORED ==== ######" );
             }
             else
             {
                 // Read secure-element DEV_EUI, JOI_EUI and SE_PIN values.
                 mibReq.Type = MIB_DEV_EUI;
                 LoRaMacMibGetRequestConfirm( &mibReq );
-                memcpy1( devEui, mibReq.Param.DevEui, 8 );
+                memcpy1( mDevEui, mibReq.Param.DevEui, 8 );
 
                 mibReq.Type = MIB_JOIN_EUI;
                 LoRaMacMibGetRequestConfirm( &mibReq );
@@ -1079,8 +1078,8 @@ void up_lorawan_loop( void )
         }
         case DEVICE_STATE_JOIN:
         {
-            //mibReq.Type = MIB_DEV_EUI;
-            //LoRaMacMibGetRequestConfirm( &mibReq );
+            mibReq.Type = MIB_DEV_EUI;
+            LoRaMacMibGetRequestConfirm( &mibReq );
             /**
             NRF_LOG_INFO( "DevEui      : %02X", mibReq.Param.DevEui[0] );
             for( int i = 1; i < 8; i++ )
@@ -1089,10 +1088,11 @@ void up_lorawan_loop( void )
             }
             NRF_LOG_INFO( "\n" );
             **/
-            //NRF_LOG_HEXDUMP_INFO(mibReq.Param.DevEui, 8);
+            NRF_LOG_INFO("DEV EUI:");
+            NRF_LOG_HEXDUMP_INFO(mibReq.Param.DevEui, 8);
 
-            //mibReq.Type = MIB_JOIN_EUI;
-            //LoRaMacMibGetRequestConfirm( &mibReq );
+            mibReq.Type = MIB_JOIN_EUI;
+            LoRaMacMibGetRequestConfirm( &mibReq );
             /**
             NRF_LOG_INFO( "JoinEui     : %02X", mibReq.Param.JoinEui[0] );
             for( int i = 1; i < 8; i++ )
@@ -1101,10 +1101,11 @@ void up_lorawan_loop( void )
             }
             NRF_LOG_INFO( "\n" );
             **/
-            //NRF_LOG_HEXDUMP_INFO(mibReq.Param.JoinEui, 8);
+            NRF_LOG_INFO("JOIN EUI:");
+            NRF_LOG_HEXDUMP_INFO(mibReq.Param.JoinEui, 8);
 
-            //mibReq.Type = MIB_SE_PIN;
-            //LoRaMacMibGetRequestConfirm( &mibReq );
+            mibReq.Type = MIB_SE_PIN;
+            LoRaMacMibGetRequestConfirm( &mibReq );
             /**
             NRF_LOG_INFO( "Pin         : %02X", mibReq.Param.SePin[0] );
             for( int i = 1; i < 4; i++ )
@@ -1113,13 +1114,14 @@ void up_lorawan_loop( void )
             }
             NRF_LOG_INFO( "\n\n" );
             **/
-            //NRF_LOG_HEXDUMP_INFO(mibReq.Param.SePin, 4);
+            NRF_LOG_INFO("SE PIN:");
+            NRF_LOG_HEXDUMP_INFO(mibReq.Param.SePin, 4);
 
 #if( OVER_THE_AIR_ACTIVATION == 0 )
-            NRF_LOG_INFO( "###### ===== JOINED ==== ######\n" );
-            NRF_LOG_INFO( "\nABP\n\n" );
-            NRF_LOG_INFO( "DevAddr     : %08lX\n", DevAddr );
-            NRF_LOG_INFO( "\n\n" );
+            NRF_LOG_INFO("###### ===== JOINED ==== ######" );
+            NRF_LOG_INFO("ABP" );
+            NRF_LOG_INFO("DevAddr     : %08lX", DevAddr );
+            //NRF_LOG_INFO( "\n\n" );
 
             mibReq.Type = MIB_NETWORK_ACTIVATION;
             mibReq.Param.NetworkActivation = ACTIVATION_TYPE_ABP;
