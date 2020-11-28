@@ -68,11 +68,8 @@
 #include "nrf_ble_qwr.h"
 #include "nrf_pwr_mgmt.h"
 #include "nrf_ble_lesc.h"
-
-#include "nrf_log.h"
 #include "nrf_log_ctrl.h"
-#include "nrf_log_default_backends.h"
-#include "log.h"
+#include "uplog.h"
 #include "classa.h"
 #include "board_config.h"
 #include "gpio.h"
@@ -204,7 +201,7 @@ static void battery_level_update(void)
     ret_code_t err_code;
     uint8_t battery_level;
 
-    //NRF_LOG_INFO("==> battery_level_update");
+    //UP_INFO("==> battery_level_update");
 
     battery_level = (uint8_t)sensorsim_measure(&m_battery_sim_state, &m_battery_sim_cfg);
 
@@ -315,8 +312,8 @@ static void timers_init(void)
     ret_code_t err_code;
 
     // Initialize timer module.
-    err_code = app_timer_init();
-    APP_ERROR_CHECK(err_code);
+    //err_code = app_timer_init();
+    //APP_ERROR_CHECK(err_code);
 
     // Create timers.
     err_code = app_timer_create(&m_battery_timer_id,
@@ -585,13 +582,13 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
     switch (ble_adv_evt)
     {
     case BLE_ADV_EVT_FAST:
-        NRF_LOG_INFO("Fast advertising.");
+        UP_INFO("Fast advertising.");
         err_code = bsp_indication_set(BSP_INDICATE_ADVERTISING);
         APP_ERROR_CHECK(err_code);
         break;
 
     case BLE_ADV_EVT_IDLE:
-        NRF_LOG_INFO("Advertising stopped.");
+        UP_INFO("Advertising stopped.");
         err_code = bsp_indication_set(BSP_INDICATE_IDLE);
         APP_ERROR_CHECK(err_code);
         break;
@@ -613,7 +610,7 @@ static void ble_evt_handler(ble_evt_t const *p_ble_evt, void *p_context)
     switch (p_ble_evt->header.evt_id)
     {
     case BLE_GAP_EVT_CONNECTED:
-        NRF_LOG_INFO("Connected");
+        UP_INFO("Connected");
         err_code = bsp_indication_set(BSP_INDICATE_CONNECTED);
         APP_ERROR_CHECK(err_code);
         m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
@@ -622,7 +619,7 @@ static void ble_evt_handler(ble_evt_t const *p_ble_evt, void *p_context)
         break;
 
     case BLE_GAP_EVT_DISCONNECTED:
-        NRF_LOG_INFO("Disconnected");
+        UP_INFO("Disconnected");
         err_code = bsp_indication_set(BSP_INDICATE_IDLE);
         APP_ERROR_CHECK(err_code);
         m_conn_handle = BLE_CONN_HANDLE_INVALID;
@@ -631,7 +628,7 @@ static void ble_evt_handler(ble_evt_t const *p_ble_evt, void *p_context)
 
     case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
     {
-        NRF_LOG_DEBUG("PHY update request.");
+        UP_DEBUG("PHY update request.");
         ble_gap_phys_t const phys =
             {
                 .rx_phys = BLE_GAP_PHY_AUTO,
@@ -644,7 +641,7 @@ static void ble_evt_handler(ble_evt_t const *p_ble_evt, void *p_context)
 
     case BLE_GATTC_EVT_TIMEOUT:
         // Disconnect on GATT Client timeout event.
-        NRF_LOG_DEBUG("GATT Client Timeout.");
+        UP_DEBUG("GATT Client Timeout.");
         err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gattc_evt.conn_handle,
                                          BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
         APP_ERROR_CHECK(err_code);
@@ -652,15 +649,15 @@ static void ble_evt_handler(ble_evt_t const *p_ble_evt, void *p_context)
 
     case BLE_GATTS_EVT_TIMEOUT:
         // Disconnect on GATT Server timeout event.
-        NRF_LOG_DEBUG("GATT Server Timeout.");
+        UP_DEBUG("GATT Server Timeout.");
         err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gatts_evt.conn_handle,
                                          BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
         APP_ERROR_CHECK(err_code);
         break;
 
     case BLE_GAP_EVT_CONN_SEC_UPDATE:
-        NRF_LOG_INFO("BLE_GAP_EVT_CONN_SEC_UPDATE");
-        NRF_LOG_INFO("Security mode: %u. Security level: %u",
+        UP_INFO("BLE_GAP_EVT_CONN_SEC_UPDATE");
+        UP_INFO("Security mode: %u. Security level: %u",
                      p_ble_evt->evt.gap_evt.params.conn_sec_update.conn_sec.sec_mode.sm,
                      p_ble_evt->evt.gap_evt.params.conn_sec_update.conn_sec.sec_mode.lv);
         break;
@@ -669,11 +666,11 @@ static void ble_evt_handler(ble_evt_t const *p_ble_evt, void *p_context)
     {
         if (p_ble_evt->evt.gap_evt.params.auth_status.auth_status == BLE_GAP_SEC_STATUS_SUCCESS)
         {
-            NRF_LOG_INFO("Authorization succeeded!");
+            UP_INFO("Authorization succeeded!");
         }
         else
         {
-            NRF_LOG_INFO("Authorization failed with code: %u!",
+            UP_INFO("Authorization failed with code: %u!",
                          p_ble_evt->evt.gap_evt.params.auth_status.auth_status);
         }
     }
@@ -830,12 +827,12 @@ static void buttons_leds_init(bool *p_erase_bonds)
 
 /**@brief Function for initializing power management.
  */
-static void power_management_init(void)
-{
-    ret_code_t err_code;
-    err_code = nrf_pwr_mgmt_init();
-    APP_ERROR_CHECK(err_code);
-}
+//static void power_management_init(void)
+//{
+//    ret_code_t err_code;
+//    err_code = nrf_pwr_mgmt_init();
+//    APP_ERROR_CHECK(err_code);
+//}
 
 /**@brief Function for handling the idle state (main loop).
  *
@@ -859,13 +856,13 @@ static void idle_state_handle(void)
 
 /**@brief Function for initializing logs.
  */
-static void log_init(void)
-{
-    ret_code_t err_code = NRF_LOG_INIT(NULL);
-    APP_ERROR_CHECK(err_code);
-
-    NRF_LOG_DEFAULT_BACKENDS_INIT();
-}
+//static void log_init(void)
+//{
+//    ret_code_t err_code = NRF_LOG_INIT(NULL);
+//    APP_ERROR_CHECK(err_code);
+//
+//    NRF_LOG_DEFAULT_BACKENDS_INIT();
+//}
 
 // TODO: KEN move to classa.c in future
 
@@ -883,14 +880,13 @@ int main(void)
     bool erase_bonds;
 
     // Initialize.
-    log_init();
-    NRF_LOG_INFO("UpIOT Start");
-    NRF_LOG_HEXDUMP_INFO(&erase_bonds, 2);
+    BoardInitMcu();
+    UP_INFO("UpIOT Start");
 
     timers_init();
     buttons_leds_init(&erase_bonds);
 
-    power_management_init();
+    //power_management_init();
 
     /** @snippet [NFC Pairing Lib usage_2] */
     ble_stack_init();
@@ -899,7 +895,7 @@ int main(void)
     peer_manager_init(erase_bonds);
     if (erase_bonds)
     {
-        NRF_LOG_INFO("Bonds erased!");
+        UP_INFO("Bonds erased!");
     }
     advertising_init();
     nrf_ble_pairing_init();
@@ -910,7 +906,6 @@ int main(void)
     conn_params_init();
 
     // Start execution.
-    NRF_LOG_INFO("Heart Rate Sensor example started.");
     application_timers_start();
 
     LoRaDeviceInit();

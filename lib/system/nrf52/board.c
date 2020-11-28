@@ -7,18 +7,16 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <ctype.h>
-#include "nrf_log.h"
+#include "uplog.h"
 #include "ble_gap.h"
 #include "app_error.h"
 #include "crc32.h"
-#include "nrf_log_ctrl.h"
-#include "nrf_log.h"
-#include "nrf_log_default_backends.h"
 #include "app_scheduler.h"
 #include "app_timer.h"
 #include "nrf_pwr_mgmt.h"
 #include "gpio.h"
 #include "nrf_gpio.h"
+#include "nrf_log_ctrl.h"
 
 #define MAX_LED_NUMBER  8
 
@@ -58,8 +56,8 @@ void BoardGetDevEUI(uint8_t *eui)
     eui[6] = 0x0;    //  reserved for future
     eui[7] = 0x0;    //  reserved for future
 
-    NRF_LOG_INFO("Board Device EUI:");
-    NRF_LOG_HEXDUMP_INFO(&eui[0], 8);
+    UP_INFO("Board Device EUI:");
+    UP_HEXDUMP_INFO(&eui[0], 8);
 }
 
 uint32_t BoardGetDevAddr()
@@ -83,8 +81,7 @@ void BoardInitMcu( void )
 {
     if( McuInitialized == false )
     {
-        APP_ERROR_CHECK( NRF_LOG_INIT( NULL ) );
-        NRF_LOG_DEFAULT_BACKENDS_INIT();
+        up_log_init();
 
         APP_SCHED_INIT( APP_TIMER_SCHED_EVENT_DATA_SIZE, 60 );
 

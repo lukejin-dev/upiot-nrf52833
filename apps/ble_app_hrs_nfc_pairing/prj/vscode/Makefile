@@ -140,7 +140,7 @@ SRC_FILES += \
 # Source files to nrf52 system
 SRC_FILES += \
   $(LIB_DIR)/system/nrf52/gpio.c \
-  $(LIB_DIR)/system/nrf52/log.c \
+  $(LIB_DIR)/system/nrf52/uplog.c \
   $(LIB_DIR)/system/nrf52/spi.c \
   $(LIB_DIR)/system/nrf52/board.c \
   $(LIB_DIR)/system/nrf52/delay.c \

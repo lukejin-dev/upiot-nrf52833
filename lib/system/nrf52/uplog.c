@@ -4,7 +4,7 @@
 
 #define NRF_LOG_MODULE_NAME up
 
-#include "log.h"
+#include "uplog.h"
 #include "sdk_common.h"
 #include "nrf_log_ctrl.h"
 #include "app_error.h"
