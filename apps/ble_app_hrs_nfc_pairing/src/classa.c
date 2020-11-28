@@ -412,8 +412,8 @@ static bool SendFrame( void )
 
     LoRaMacStatus_t status;
     status = LoRaMacMcpsRequest( &mcpsReq );
-    UP_INFO( "###### ===== MCPS-Request ==== ######" );
-    UP_INFO( "STATUS      : %s", MacStatusStrings[status] );
+    //UP_INFO( "###### ===== MCPS-Request ==== ######" );
+    //UP_INFO( "STATUS      : %s", MacStatusStrings[status] );
 
     if( status == LORAMAC_STATUS_DUTYCYCLE_RESTRICTED )
     {
@@ -525,7 +525,12 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
     mibReq.Type = MIB_DEVICE_CLASS;
     LoRaMacMibGetRequestConfirm( &mibReq );
 
-    UP_INFO("###### ===== UPLINK FRAME %lu ==== ######", mcpsConfirm->UpLinkCounter );
+    UP_INFO(
+        "[Device => Gateway] [%lu]: DR_%d, TX POWER:%d",
+        mcpsConfirm->UpLinkCounter,
+        mcpsConfirm->Datarate,
+        mcpsConfirm->TxPower
+        );
     //UP_INFO("\n" );
 
     //UP_INFO("CLASS       : %c\n", "ABC"[mibReq.Param.Class] );
@@ -536,23 +541,20 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
     {
         if( AppData.MsgType == LORAMAC_HANDLER_CONFIRMED_MSG )
         {
-            UP_INFO( "CONFIRMED - %s", ( mcpsConfirm->AckReceived != 0 ) ? "ACK" : "NACK" );
+            UP_INFO( "  CONFIRMED - %s", ( mcpsConfirm->AckReceived != 0 ) ? "ACK" : "NACK" );
         }
         else
         {
-            UP_INFO( "UNCONFIRMED" );
+            UP_INFO( "  UNCONFIRMED" );
         }
-        UP_INFO( "TX DATA     : " );
+        UP_INFO( "  TX DATA     : " );
         UP_HEXDUMP_INFO( AppData.Buffer, AppData.BufferSize );
     }
-
-    //UP_INFO( "\n" );
-    UP_INFO( "DATA RATE : DR_%d  TX POWER: %d", mcpsConfirm->Datarate, mcpsConfirm->TxPower);
 
     mibGet.Type  = MIB_CHANNELS;
     if( LoRaMacMibGetRequestConfirm( &mibGet ) == LORAMAC_STATUS_OK )
     {
-        UP_INFO( "U/L FREQ    : %lu", mibGet.Param.ChannelList[mcpsConfirm->Channel].Frequency );
+        UP_INFO( "  U/L FREQ    : %lu", mibGet.Param.ChannelList[mcpsConfirm->Channel].Frequency );
     }
 
     mibGet.Type  = MIB_CHANNELS_MASK;
