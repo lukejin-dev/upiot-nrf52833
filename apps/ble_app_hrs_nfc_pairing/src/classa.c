@@ -304,12 +304,12 @@ static void JoinNetwork( void )
 
     // Starts the join procedure
     status = LoRaMacMlmeRequest( &mlmeReq );
-    UP_INFO( "\n###### ===== MLME-Request - MLME_JOIN ==== ######\n" );
-    UP_INFO( "STATUS      : %s\n", MacStatusStrings[status] );
+    UP_INFO( "###### ===== MLME-Request - MLME_JOIN ==== ######" );
+    UP_INFO( "STATUS      : %s", MacStatusStrings[status] );
 
     if( status == LORAMAC_STATUS_OK )
     {
-        UP_INFO( "###### ===== JOINING ==== ######\n" );
+        UP_INFO( "###### ===== JOINING ==== ######" );
         DeviceState = DEVICE_STATE_SLEEP;
     }
     else
@@ -525,7 +525,7 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
     mibReq.Type = MIB_DEVICE_CLASS;
     LoRaMacMibGetRequestConfirm( &mibReq );
 
-    UP_INFO("###### ===== UPLINK FRAME %lu ==== ######\n", mcpsConfirm->UpLinkCounter );
+    UP_INFO("###### ===== UPLINK FRAME %lu ==== ######", mcpsConfirm->UpLinkCounter );
     //UP_INFO("\n" );
 
     //UP_INFO("CLASS       : %c\n", "ABC"[mibReq.Param.Class] );
@@ -534,7 +534,6 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
 
     if( AppData.BufferSize != 0 )
     {
-        UP_INFO( "TX DATA     : " );
         if( AppData.MsgType == LORAMAC_HANDLER_CONFIRMED_MSG )
         {
             UP_INFO( "CONFIRMED - %s", ( mcpsConfirm->AckReceived != 0 ) ? "ACK" : "NACK" );
@@ -543,19 +542,18 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
         {
             UP_INFO( "UNCONFIRMED" );
         }
+        UP_INFO( "TX DATA     : " );
         UP_HEXDUMP_INFO( AppData.Buffer, AppData.BufferSize );
     }
 
     //UP_INFO( "\n" );
-    UP_INFO( "DATA RATE   : DR_%d", mcpsConfirm->Datarate );
+    UP_INFO( "DATA RATE : DR_%d  TX POWER: %d", mcpsConfirm->Datarate, mcpsConfirm->TxPower);
 
     mibGet.Type  = MIB_CHANNELS;
     if( LoRaMacMibGetRequestConfirm( &mibGet ) == LORAMAC_STATUS_OK )
     {
         UP_INFO( "U/L FREQ    : %lu", mibGet.Param.ChannelList[mcpsConfirm->Channel].Frequency );
     }
-
-    UP_INFO( "TX POWER    : %d", mcpsConfirm->TxPower );
 
     mibGet.Type  = MIB_CHANNELS_MASK;
     if( LoRaMacMibGetRequestConfirm( &mibGet ) == LORAMAC_STATUS_OK )
@@ -593,8 +591,8 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
  */
 static void McpsIndication( McpsIndication_t *mcpsIndication )
 {
-    UP_INFO( "\n###### ===== MCPS-Indication ==== ######\n" );
-    UP_INFO( "STATUS      : %s\n", EventInfoStatusStrings[mcpsIndication->Status] );
+    UP_INFO( "###### ===== MCPS-Indication ==== ######" );
+    UP_INFO( "STATUS      : %s", EventInfoStatusStrings[mcpsIndication->Status] );
     if( mcpsIndication->Status != LORAMAC_EVENT_INFO_STATUS_OK )
     {
         return;
@@ -807,7 +805,7 @@ static void McpsIndication( McpsIndication_t *mcpsIndication )
 
     const char *slotStrings[] = { "1", "2", "C", "C Multicast", "B Ping-Slot", "B Multicast Ping-Slot" };
 
-    UP_INFO( "\n###### ===== DOWNLINK FRAME %lu ==== ######\n", mcpsIndication->DownLinkCounter );
+    UP_INFO( "###### ===== DOWNLINK FRAME %lu ==== ######", mcpsIndication->DownLinkCounter );
 
     UP_INFO( "RX WINDOW   : %s\n", slotStrings[mcpsIndication->RxSlot] );
 

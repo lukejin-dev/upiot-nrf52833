@@ -825,15 +825,6 @@ static void buttons_leds_init(bool *p_erase_bonds)
     *p_erase_bonds = (startup_event == BSP_EVENT_CLEAR_BONDING_DATA);
 }
 
-/**@brief Function for initializing power management.
- */
-//static void power_management_init(void)
-//{
-//    ret_code_t err_code;
-//    err_code = nrf_pwr_mgmt_init();
-//    APP_ERROR_CHECK(err_code);
-//}
-
 /**@brief Function for handling the idle state (main loop).
  *
  * @details If there is no pending log operation, then sleep until next the next event occurs.
@@ -853,19 +844,6 @@ static void idle_state_handle(void)
         nrf_pwr_mgmt_run();
     }
 }
-
-/**@brief Function for initializing logs.
- */
-//static void log_init(void)
-//{
-//    ret_code_t err_code = NRF_LOG_INIT(NULL);
-//    APP_ERROR_CHECK(err_code);
-//
-//    NRF_LOG_DEFAULT_BACKENDS_INIT();
-//}
-
-// TODO: KEN move to classa.c in future
-
 
 void LoRaDeviceInit(void)
 {
