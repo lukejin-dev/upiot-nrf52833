@@ -74,6 +74,11 @@
 #include "nrf_log_default_backends.h"
 #include "log.h"
 #include "classa.h"
+#include "board_config.h"
+#include "gpio.h"
+#include "sx126x.h"
+#include "sx126x-board.h"
+#include "board.h"
 
 #define DEVICE_NAME "Nordic_HRM_NFC"            /**< Name of device. Will be included in the advertising data. */
 #define MANUFACTURER_NAME "NordicSemiconductor" /**< Manufacturer. Will be passed to Device Information Service. */
@@ -809,12 +814,16 @@ static void buttons_leds_init(bool *p_erase_bonds)
 {
     ret_code_t err_code;
     bsp_event_t startup_event;
+    uint32_t leds[] = BOARD_LED_LIST;
 
-    err_code = bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS, bsp_event_handler);
+    //err_code = bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS, bsp_event_handler);
+    err_code = bsp_init(BSP_INIT_BUTTONS, bsp_event_handler);
     APP_ERROR_CHECK(err_code);
 
     err_code = bsp_btn_ble_init(NULL, &startup_event);
     APP_ERROR_CHECK(err_code);
+
+    BoardInitLeds(&leds[0], sizeof(leds));
 
     *p_erase_bonds = (startup_event == BSP_EVENT_CLEAR_BONDING_DATA);
 }
@@ -859,17 +868,18 @@ static void log_init(void)
 }
 
 // TODO: KEN move to classa.c in future
-#include "board_config.h"
-#include "gpio.h"
-#include "sx126x.h"
-#include "sx126x-board.h"
-#include "board.h"
+
+
+void LoRaDeviceInit(void)
+{
+    SpiInit( &SX126x.Spi, SPI_2, SX126X_MOSI, SX126X_MISO, SX126X_SCLK, SX126X_NSS );
+    SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
+}
 
 /**@brief Function for application main entry.
  */
 int main(void)
 {
-    uint32_t leds[] = BOARD_LED_LIST;
     bool erase_bonds;
 
     // Initialize.
@@ -878,8 +888,7 @@ int main(void)
     NRF_LOG_HEXDUMP_INFO(&erase_bonds, 2);
 
     timers_init();
-    //buttons_leds_init(&erase_bonds);
-    BoardInitLeds(&leds[0], sizeof(leds));
+    buttons_leds_init(&erase_bonds);
 
     power_management_init();
 
@@ -904,16 +913,13 @@ int main(void)
     NRF_LOG_INFO("Heart Rate Sensor example started.");
     application_timers_start();
 
-    // TODO: KEN move to classa.c in future
-    SpiInit( &SX126x.Spi, SPI_2, SX126X_MOSI, SX126X_MISO, SX126X_SCLK, SX126X_NSS );
-    SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
-
-    up_lorawan_init();
+    LoRaDeviceInit();
+    LoRaWanClassAInit();
 
     // Enter main loop.
     for (;;)
     {
-        up_lorawan_loop();
+        LoRaWanClassALoop();
         idle_state_handle();
     }
 }

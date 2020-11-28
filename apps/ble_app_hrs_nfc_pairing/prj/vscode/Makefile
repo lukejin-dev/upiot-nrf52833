@@ -172,10 +172,6 @@ SRC_FILES += \
   $(LORA_DIR)/radio/sx126x/radio.c \
   $(LORA_DIR)/radio/sx126x/sx126x.c \
 
-# Source files to nrf52833 board
-SRC_FILES += \
-  $(BOARD_DIR)\board-nrf52833.c
-
 # Encryption for Lora SDK, which is conflicted with nRF SDK
 SRC_FILES += \
   $(LORA_DIR)/peripherals/soft-se/soft-aes.c \

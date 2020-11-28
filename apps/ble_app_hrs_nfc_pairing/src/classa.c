@@ -931,7 +931,7 @@ static LoRaMacCallback_t macCallbacks;
 /**
  * Main application entry point.
  */
-void up_lorawan_init( void )
+void LoRaWanClassAInit( void )
 {
 
     LoRaMacStatus_t status;
@@ -970,7 +970,7 @@ static uint8_t mDevEui[8] = { 0 };   // Automatically filed from secure-element
 static uint8_t mJoinEui[8] = { 0 };  // Automatically filed from secure-element
 static uint8_t mSePin[4] = { 0 };    // Automatically filed from secure-element
 
-void up_lorawan_loop( void )
+void LoRaWanClassALoop( void )
 {
     MibRequestConfirm_t mibReq;
     LoRaMacStatus_t status;
