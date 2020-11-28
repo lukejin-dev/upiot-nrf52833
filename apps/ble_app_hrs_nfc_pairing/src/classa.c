@@ -36,6 +36,7 @@
 #include "spi.h"
 #include "board_config.h"
 #include "nrf_log.h"
+#include "board.h"
 
 #ifndef ACTIVE_REGION
 
@@ -142,7 +143,7 @@ static bool AppLedStateOn = false;
 ///*!
 // * Timer to handle the state of LED1
 // */
-// static TimerEvent_t Led1Timer;
+//static TimerEvent_t Led1Timer;
 
 ///*!
 // * Timer to handle the state of LED3
@@ -461,8 +462,8 @@ static void OnTxNextPacketTimerEvent( void* context )
 //static void OnLed1TimerEvent( void* context )
 //{
 //    TimerStop( &Led1Timer );
-//    // Switch LED 1 OFF
-//    //GpioWrite( &Led1, 0 );
+    // Switch LED 1 OFF
+    //GpioWrite( &Led1, 0 );
 //}
 
 ///*!
@@ -515,8 +516,9 @@ static void McpsConfirm( McpsConfirm_t *mcpsConfirm )
         }
 
         // Switch LED 1 ON
-        //GpioWrite( &Led1, 1 );
+        // GpioWrite( &Led1, 1 );
         //TimerStart( &Led1Timer );
+        BoardLedToggle(LED_LORA_TX);
     }
     MibRequestConfirm_t mibGet;
     MibRequestConfirm_t mibReq;
@@ -1015,14 +1017,6 @@ void up_lorawan_loop( void )
                 mibReq.Param.NetID = LORAWAN_NETWORK_ID;
                 LoRaMacMibSetRequestConfirm( &mibReq );
 
-                // Choose a random device address if not already defined in Commissioning.h
-#if( STATIC_DEVICE_ADDRESS != 1 )
-                // Random seed initialization
-                //srand1( BoardGetRandomSeed( ) );
-                srand1(0);
-                // Choose a random device address
-                DevAddr = randr( 0, 0x01FFFFFF );
-#endif
                 if (DevAddr == 0) {
                     DevAddr = BoardGetDevAddr();
                     NRF_LOG_INFO("Board Address: 0x%x", DevAddr);

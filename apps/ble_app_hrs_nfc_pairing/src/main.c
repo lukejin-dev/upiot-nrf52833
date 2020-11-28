@@ -863,11 +863,13 @@ static void log_init(void)
 #include "gpio.h"
 #include "sx126x.h"
 #include "sx126x-board.h"
+#include "board.h"
 
 /**@brief Function for application main entry.
  */
 int main(void)
 {
+    uint32_t leds[] = BOARD_LED_LIST;
     bool erase_bonds;
 
     // Initialize.
@@ -876,7 +878,9 @@ int main(void)
     NRF_LOG_HEXDUMP_INFO(&erase_bonds, 2);
 
     timers_init();
-    buttons_leds_init(&erase_bonds);
+    //buttons_leds_init(&erase_bonds);
+    BoardInitLeds(&leds[0], sizeof(leds));
+
     power_management_init();
 
     /** @snippet [NFC Pairing Lib usage_2] */

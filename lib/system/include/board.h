@@ -176,6 +176,13 @@ uint8_t GetBoardPowerSource( void );
  */
 Version_t BoardGetVersion( void );
 
+void BoardIdleStateHandle( void );
+void BoardInitLeds(uint32_t* pins, uint8_t count);
+void BoardLedsOff(void);
+void BoardLedOff(uint32_t led_idx);
+void BoardLedOn(uint32_t led_idx);
+void BoardLedToggle(uint32_t led_idx);
+
 #ifdef __cplusplus
 }
 #endif
