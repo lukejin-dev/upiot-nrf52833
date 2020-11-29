@@ -36,6 +36,7 @@
 #include "spi.h"
 #include "board_config.h"
 #include "board.h"
+#include "si7021.h"
 
 #ifndef ACTIVE_REGION
 
@@ -331,8 +332,9 @@ static void PrepareTxFrame( uint8_t port )
     {
     case 2:
         {
-            AppDataSizeBackup = AppDataSize = 1;
-            AppDataBuffer[0] = AppLedStateOn;
+            AppDataSizeBackup = AppDataSize = 2;
+            AppDataBuffer[0] = SI7021_ReadHumidity();;
+            AppDataBuffer[1] = SI7021_ReadTemperature();
         }
         break;
     case 224:

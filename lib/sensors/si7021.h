@@ -26,5 +26,7 @@ typedef enum Si7021_commands
 }Si7021_commands_t;
 
 bool SI7021_Init(I2cId_t id, PinNames scl, PinNames sda);
+int8_t SI7021_ReadHumidity();
+int8_t SI7021_ReadTemperature();
 
 #endif // _UP_SI7021_H_

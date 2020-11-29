@@ -48,6 +48,32 @@ void SI7021_Reset()
     I2cWrite(&SI7021_I2c, I2C_ADDR, (uint8_t*)&cmd, 1, true);
 }
 
+int8_t SI7021_ReadTemperature()
+{
+    uint8_t buffer[2] = {0};
+    uint16_t code;
+    float temp;
+
+    I2cRegRead(&SI7021_I2c, I2C_ADDR, Temp_HM, buffer, 2);
+    code = (uint16_t)((buffer[0]<<8)|buffer[1]);
+    temp = (float)(((175.72 * code) / 65536.0) - 46.85);
+    UP_INFO("Temperature is: %d", temp);
+    return temp;
+}
+
+int8_t SI7021_ReadHumidity()
+{
+    uint8_t buffer[2] = {0};
+    uint16_t code;
+    float humidity;
+
+    I2cRegRead(&SI7021_I2c, I2C_ADDR, Humi_HM, buffer, 2);
+    code = (uint16_t)((buffer[0]<<8)|buffer[1]);
+    humidity = (float)(((125.0 * code) / 65536.0) - 6.0);
+    UP_INFO("Humidity is: %d", humidity);
+    return humidity;
+}
+
 bool SI7021_Init(I2cId_t id, PinNames scl, PinNames sda)
 {
     UP_INFO("SI7021 Init");
@@ -57,6 +83,8 @@ bool SI7021_Init(I2cId_t id, PinNames scl, PinNames sda)
     //SI7021_Reset();
     SI7021_GetFirmwareRevision();
     SI7021_GetDeviceID();
+    SI7021_ReadTemperature();
+    SI7021_ReadHumidity();
 
     return true;
 }
