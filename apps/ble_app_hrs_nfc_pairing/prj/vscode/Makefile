@@ -34,6 +34,7 @@ SRC_FILES += \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uart.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uarte.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_spim.c \
+  $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_twim.c \
   $(SDK_ROOT)/modules/nrfx/mdk/system_nrf52833.c \
   $(SDK_ROOT)/components/ble/ble_services/ble_bas/ble_bas.c \
   $(SDK_ROOT)/components/ble/ble_services/ble_dis/ble_dis.c \
@@ -147,8 +148,10 @@ SRC_FILES += \
   $(LIB_DIR)/system/nrf52/timer.c \
   $(LIB_DIR)/system/nrf52/systime.c \
   $(LIB_DIR)/system/nrf52/rtc.c \
+  $(LIB_DIR)/system/nrf52/i2c.c \
   $(LIB_DIR)/system/nrf52/sx126x-board.c \
   $(LIB_DIR)/system/nrf52/utilities.c \
+  $(LIB_DIR)/sensors/si7021.c \
 
 SRC_FILES += \
   $(PROJ_DIR)/src/main.c \
@@ -341,6 +344,7 @@ INC_FOLDERS += \
   $(LORA_DIR)/radio/sx126x \
   $(LORA_DIR)/apps/LoRaMac/common/ \
   $(LIB_DIR)/system/include \
+  $(LIB_DIR)/sensors \
 
 # Libraries common to all targets
 LIB_FILES += \

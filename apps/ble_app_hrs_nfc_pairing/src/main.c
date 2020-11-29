@@ -851,6 +851,8 @@ void LoRaDeviceInit(void)
     SX126xIoInit(SX126X_BUSY, SX126X_DIO1, SX126X_RESET, NC);
 }
 
+#include "si7021.h"
+
 /**@brief Function for application main entry.
  */
 int main(void)
@@ -885,6 +887,8 @@ int main(void)
 
     // Start execution.
     application_timers_start();
+
+    SI7021_Init(1, SI7021_SCL, SI7021_SDA);
 
     LoRaDeviceInit();
     LoRaWanClassAInit();

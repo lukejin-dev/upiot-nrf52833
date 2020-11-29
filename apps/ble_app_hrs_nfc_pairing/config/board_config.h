@@ -16,6 +16,9 @@
 #define BOARD_LED_2             P0_14
 #define BOARD_LED_3             P0_16
 
+#define SI7021_SDA              P0_05
+#define SI7021_SCL              P0_04
+
 #define LED_LORA_TX             0
 
 #define BOARD_LED_LIST { BOARD_LED_1, BOARD_LED_2, BOARD_LED_3 }

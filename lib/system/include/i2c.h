@@ -20,14 +20,15 @@
  *
  * \author    Gregory Cristian ( Semtech )
  */
-#ifndef __I2C_H__
-#define __I2C_H__
+#ifndef __UP_I2C_H__
+#define __UP_I2C_H__
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
+#include <stdbool.h>
 #include "gpio.h"
 
 /*!
@@ -35,8 +36,8 @@ extern "C"
  */
 typedef enum
 {
+    I2C_0,
     I2C_1,
-    I2C_2,
 }I2cId_t;
 
 /*!
@@ -45,6 +46,7 @@ typedef enum
 typedef struct
 {
     I2cId_t I2cId;
+    void*   Inst;
     Gpio_t Scl;
     Gpio_t Sda;
 }I2c_t;
@@ -79,8 +81,9 @@ void I2cResetBus( I2c_t *obj );
  * \param [IN] deviceAddr       device address
  * \param [IN] addr             data address
  * \param [IN] data             data to write
+ * \param [IN] no_stop          Include stop bit when sending; true is not include, false is include
  */
-uint8_t I2cWrite( I2c_t *obj, uint8_t deviceAddr, uint16_t addr, uint8_t data );
+uint32_t I2cWrite( I2c_t *obj, uint8_t deviceAddr, uint8_t *buffer, uint16_t size, bool no_stop );
 
 /*!
  * \brief Write data buffer to the I2C device
@@ -90,8 +93,9 @@ uint8_t I2cWrite( I2c_t *obj, uint8_t deviceAddr, uint16_t addr, uint8_t data );
  * \param [IN] addr             data address
  * \param [IN] buffer           data buffer to write
  * \param [IN] size             number of bytes to write
+ * \param [IN] no_stop          Include stop bit when sending; true is not include, false is include
  */
-uint8_t I2cWriteBuffer( I2c_t *obj, uint8_t deviceAddr, uint16_t addr, uint8_t *buffer, uint16_t size );
+uint32_t I2cWrite( I2c_t *obj, uint8_t deviceAddr, uint8_t *buffer, uint16_t size, bool no_stop );
 
 /*!
  * \brief Read data from the I2C device
@@ -101,7 +105,7 @@ uint8_t I2cWriteBuffer( I2c_t *obj, uint8_t deviceAddr, uint16_t addr, uint8_t *
  * \param [IN] addr             data address
  * \param [OUT] data            data to read
  */
-uint8_t I2cRead( I2c_t *obj, uint8_t deviceAddr, uint16_t addr, uint8_t *data );
+uint32_t I2cRead( I2c_t *obj, uint8_t deviceAddr, uint8_t *buffer, uint16_t size );
 
 /*!
  * \brief Read data buffer from the I2C device
@@ -114,8 +118,12 @@ uint8_t I2cRead( I2c_t *obj, uint8_t deviceAddr, uint16_t addr, uint8_t *data );
  */
 uint8_t I2cReadBuffer( I2c_t *obj, uint8_t deviceAddr, uint16_t addr, uint8_t *buffer, uint16_t size );
 
+uint32_t I2cRegWrite( I2c_t *obj, uint8_t deviceAddr, uint8_t reg, uint8_t *buffer, uint16_t size, bool no_stop );
+
+uint32_t I2cRegRead( I2c_t *obj, uint8_t deviceAddr, uint8_t reg, uint8_t *buffer, uint16_t size );
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __I2C_H__
+#endif // __UP_I2C_H____UP_I2C_H__
