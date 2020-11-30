@@ -332,9 +332,10 @@ static void PrepareTxFrame( uint8_t port )
     {
     case 2:
         {
-            AppDataSizeBackup = AppDataSize = 2;
-            AppDataBuffer[0] = SI7021_ReadHumidity();;
-            AppDataBuffer[1] = SI7021_ReadTemperature();
+            AppDataSizeBackup = AppDataSize = 3;
+            AppDataBuffer[0] = 1;       // device type = 1
+            AppDataBuffer[1] = SI7021_ReadHumidity();;
+            AppDataBuffer[2] = SI7021_ReadTemperature();
         }
         break;
     case 224:
@@ -970,6 +971,11 @@ void LoRaWanClassAInit( void )
 static uint8_t mDevEui[8] = { 0 };   // Automatically filed from secure-element
 static uint8_t mJoinEui[8] = { 0 };  // Automatically filed from secure-element
 static uint8_t mSePin[4] = { 0 };    // Automatically filed from secure-element
+static uint8_t NwkKey[] = LORAWAN_NWK_KEY;
+static uint8_t FNwkSIntKey[] = LORAWAN_F_NWK_S_INT_KEY;
+static uint8_t SNwkSIntKey[] = LORAWAN_S_NWK_S_INT_KEY;
+static uint8_t NwkSEncKey[] = LORAWAN_NWK_S_ENC_KEY;
+static uint8_t AppSKey[] = LORAWAN_APP_S_KEY;
 
 void LoRaWanClassALoop( void )
 {
@@ -1008,6 +1014,10 @@ void LoRaWanClassALoop( void )
                 LoRaMacMibGetRequestConfirm( &mibReq );
                 memcpy1( mSePin, mibReq.Param.SePin, 4 );
 
+                mibReq.Type = MIB_NWK_KEY;
+                mibReq.Param.NwkKey = NwkKey;
+                LoRaMacMibSetRequestConfirm( &mibReq );
+
 #if( OVER_THE_AIR_ACTIVATION == 0 )
                 // Tell the MAC layer which network server version are we connecting too.
                 mibReq.Type = MIB_ABP_LORAWAN_VERSION;
@@ -1024,6 +1034,22 @@ void LoRaWanClassALoop( void )
                 }
                 mibReq.Type = MIB_DEV_ADDR;
                 mibReq.Param.DevAddr = DevAddr;
+                LoRaMacMibSetRequestConfirm( &mibReq );
+
+                mibReq.Type = MIB_F_NWK_S_INT_KEY;
+                mibReq.Param.FNwkSIntKey = FNwkSIntKey;
+                LoRaMacMibSetRequestConfirm( &mibReq );
+
+                mibReq.Type = MIB_S_NWK_S_INT_KEY;
+                mibReq.Param.SNwkSIntKey = SNwkSIntKey;
+                LoRaMacMibSetRequestConfirm( &mibReq );
+
+                mibReq.Type = MIB_NWK_S_ENC_KEY;
+                mibReq.Param.NwkSEncKey = NwkSEncKey;
+                LoRaMacMibSetRequestConfirm( &mibReq );
+
+                mibReq.Type = MIB_APP_S_KEY;
+                mibReq.Param.AppSKey = AppSKey;
                 LoRaMacMibSetRequestConfirm( &mibReq );
 #endif // #if( OVER_THE_AIR_ACTIVATION == 0 )
             }
