@@ -343,12 +343,12 @@ void RegionCN470InitDefaults( InitDefaultsParams_t* params )
             NvmCtx.ChannelsDefaultMask[5] = 0xFFFF;
             **/
 
-            NvmCtx.ChannelsDefaultMask[0] = 0x0000;  // Huwomo默认测试信道 6-13信道 : 0x3FC0
-            NvmCtx.ChannelsDefaultMask[1] = 0x00FF;  // Huwomo反恐演示信道 20-27信道 : 0x0FF0
-            NvmCtx.ChannelsDefaultMask[2] = 0x0000;  // Huwomo传感器演示信道 32-39信道 : 0x00FF
+            NvmCtx.ChannelsDefaultMask[0] = 0x0000;
+            NvmCtx.ChannelsDefaultMask[1] = 0x00FF;
+            NvmCtx.ChannelsDefaultMask[2] = 0x0000;
             NvmCtx.ChannelsDefaultMask[3] = 0x0000;
             NvmCtx.ChannelsDefaultMask[4] = 0x0000;
-            NvmCtx.ChannelsDefaultMask[5] = 0x0000;  // TTN服务器信道 80-87信道 : 0x00FF
+            NvmCtx.ChannelsDefaultMask[5] = 0x0000;
 
             // Copy channels default mask
             RegionCommonChanMaskCopy( NvmCtx.ChannelsMask, NvmCtx.ChannelsDefaultMask, CHANNELS_MASK_SIZE );
