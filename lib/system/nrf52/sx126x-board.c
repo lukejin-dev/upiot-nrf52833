@@ -11,6 +11,7 @@
 #include "sx126x-board.h"
 #include "delay.h"
 #include "board.h"
+#include "board_config.h"
 
 /*!
  * Antenna switch GPIO pins objects
