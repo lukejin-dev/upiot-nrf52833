@@ -421,7 +421,6 @@ LIB_FILES += -lc -lnosys -lm
 
 # Default target - first one defined
 default: nrf52833_xxaa
-	mergehex -o $(OUTPUT_DIRECTORY)/merged.hex -m $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_7.2.0_softdevice.hex $(OUTPUT_DIRECTORY)/nrf52833_xxaa.hex
 
 # Print all targets that can be built
 help:
